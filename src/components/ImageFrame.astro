@@ -1,4 +1,6 @@
 ---
+import { withBase } from '../lib/paths';
+
 interface Props {
   image?: string;
   alt: string;
@@ -23,7 +25,7 @@ const {
   <div class="image-frame__media">
     {image ? (
       <img
-        src={image}
+        src={withBase(image)}
         alt={alt}
         loading={priority ? 'eager' : 'lazy'}
         fetchpriority={priority ? 'high' : 'auto'}

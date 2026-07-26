@@ -1,4 +1,6 @@
 ---
+import { withBase } from '../lib/paths';
+
 interface Props {
   name: string;
   monogram: string;
@@ -6,10 +8,13 @@ interface Props {
 }
 const { name, monogram, navigation } = Astro.props;
 const currentPath = Astro.url.pathname;
-const isCurrent = (href: string) => href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+const isCurrent = (href: string) => {
+  const resolvedHref = withBase(href);
+  return href === '/' ? currentPath === resolvedHref || currentPath === `${resolvedHref}/` : currentPath.startsWith(resolvedHref);
+};
 ---
 <header class="site-header" data-header>
-  <a class="brand" href="/" aria-label={`${name} home`}>
+  <a class="brand" href={withBase('/')} aria-label={`${name} home`}>
     <span class="monogram" aria-hidden="true">{monogram}</span>
     <span class="brand__name">Heritage Buildings<br />Photographer</span>
   </a>
@@ -21,7 +26,7 @@ const isCurrent = (href: string) => href === '/' ? currentPath === '/' : current
     <div class="site-nav__label">Navigate</div>
     <ul>
       {navigation.map((item) => (
-        <li><a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a></li>
+        <li><a href={withBase(item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a></li>
       ))}
     </ul>
   </nav>

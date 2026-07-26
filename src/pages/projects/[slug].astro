@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ImageFrame from '../../components/ImageFrame.astro';
+import { withBase } from '../../lib/paths';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -35,8 +36,8 @@ const { Content } = await render(project);
     </section>
   </article>
   <nav class="previous-next" aria-label="Project navigation">
-    <a href={`/projects/${previous.id}/`}><span>Previous</span>{previous.data.title}</a>
-    <a href="/projects/"><span>Index</span>All projects</a>
-    <a href={`/projects/${next.id}/`}><span>Next</span>{next.data.title}</a>
+    <a href={withBase(`/projects/${previous.id}/`)}><span>Previous</span>{previous.data.title}</a>
+    <a href={withBase('/projects/')}><span>Index</span>All projects</a>
+    <a href={withBase(`/projects/${next.id}/`)}><span>Next</span>{next.data.title}</a>
   </nav>
 </BaseLayout>

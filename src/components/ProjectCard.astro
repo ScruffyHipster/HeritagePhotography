@@ -1,17 +1,18 @@
 ---
 import ImageFrame from './ImageFrame.astro';
+import { withBase } from '../lib/paths';
 const { project, index } = Astro.props;
 ---
 <article class="project-card reveal">
-  <a href={`/projects/${project.id}/`} class="project-card__image" aria-label={`View ${project.data.title}`}>
+  <a href={withBase(`/projects/${project.id}/`)} class="project-card__image" aria-label={`View ${project.data.title}`}>
     <ImageFrame {...project.data.hero} parallax={index === 0} />
   </a>
   <div class="project-card__copy">
     <span class="index">{String(index + 1).padStart(2, '0')}</span>
     <div>
-      <h3><a href={`/projects/${project.id}/`}>{project.data.title}</a></h3>
+      <h3><a href={withBase(`/projects/${project.id}/`)}>{project.data.title}</a></h3>
       <p>{project.data.summary}</p>
-      <a class="text-link" href={`/projects/${project.id}/`}>View project</a>
+      <a class="text-link" href={withBase(`/projects/${project.id}/`)}>View project</a>
     </div>
   </div>
 </article>

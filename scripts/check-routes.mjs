@@ -1,6 +1,7 @@
 import { access, readFile } from 'node:fs/promises';
 
 const root = new URL('../dist/', import.meta.url);
+const basePrefix = process.env.GITHUB_ACTIONS === 'true' ? '/HeritagePhotography' : '';
 const requiredRoutes = [
   'index.html', 'about/index.html', 'projects/index.html', 'gallery/index.html',
   'events/index.html', 'shop/index.html', 'contact/index.html', '404.html',
@@ -20,7 +21,10 @@ for (const file of requiredRoutes.filter((route) => route.endsWith('.html'))) {
   const links = [...html.matchAll(/href="(\/[^"#?]*)"/g)].map((match) => match[1]);
   for (const link of links) {
     if (link.startsWith('/_astro/') || /\.[a-z0-9]+$/i.test(link)) continue;
-    const relative = link === '/' ? 'index.html' : `${link.replace(/^\/|\/$/g, '')}/index.html`;
+    const route = basePrefix && link.startsWith(basePrefix)
+      ? link.slice(basePrefix.length) || '/'
+      : link;
+    const relative = route === '/' ? 'index.html' : `${route.replace(/^\/|\/$/g, '')}/index.html`;
     try { await access(new URL(relative, root)); }
     catch { broken.push(`${file} -> ${link}`); }
   }

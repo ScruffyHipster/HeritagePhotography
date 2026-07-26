@@ -29,3 +29,11 @@ Use the Astro framework preset:
 - Production branch: `main`
 
 The site is fully static, so no Cloudflare adapter or runtime variables are required.
+
+## GitHub Pages
+
+The included `.github/workflows/deploy.yml` builds and deploys the site whenever `main` is pushed. In the repository’s **Settings → Pages**, set **Source** to **GitHub Actions**. Do not select “Deploy from a branch”: `main` contains the Astro source, while the workflow publishes the generated `dist` artifact.
+
+GitHub Actions automatically builds with the `/HeritagePhotography` base path for:
+
+`https://scruffyhipster.github.io/HeritagePhotography/`

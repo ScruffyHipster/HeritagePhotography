@@ -8,6 +8,7 @@ import '../styles/global.css';
 import { getEntry } from 'astro:content';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { withBase } from '../lib/paths';
 
 interface Props {
   title?: string;
@@ -22,8 +23,9 @@ const {
   description = site.seo?.description ?? site.strapline,
   socialImage = site.seo?.socialImage,
 } = Astro.props;
-const canonical = new URL(Astro.url.pathname, site.canonicalUrl);
-const imageUrl = socialImage ? new URL(socialImage, site.canonicalUrl) : undefined;
+const deploymentSite = Astro.site ?? new URL(site.canonicalUrl);
+const canonical = new URL(Astro.url.pathname, deploymentSite);
+const imageUrl = socialImage ? new URL(withBase(socialImage), deploymentSite) : undefined;
 ---
 <!doctype html>
 <html lang="en">

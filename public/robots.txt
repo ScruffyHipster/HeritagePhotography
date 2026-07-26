@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://heritagephotographer.co.uk/sitemap-index.xml

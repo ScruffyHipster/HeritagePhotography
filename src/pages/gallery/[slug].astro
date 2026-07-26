@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ImageFrame from '../../components/ImageFrame.astro';
+import { withBase } from '../../lib/paths';
 export async function getStaticPaths() {
   const galleries = await getCollection('galleries');
   return galleries.map((gallery) => ({ params: { slug: gallery.id }, props: { gallery, galleries } }));
@@ -27,8 +28,8 @@ const next = ordered[(index + 1) % ordered.length];
     ))}
   </section>
   <nav class="previous-next" aria-label="Gallery navigation">
-    <a href={`/gallery/${previous.id}/`}><span>Previous</span>{previous.data.title}</a>
-    <a href="/gallery/"><span>Index</span>All galleries</a>
-    <a href={`/gallery/${next.id}/`}><span>Next</span>{next.data.title}</a>
+    <a href={withBase(`/gallery/${previous.id}/`)}><span>Previous</span>{previous.data.title}</a>
+    <a href={withBase('/gallery/')}><span>Index</span>All galleries</a>
+    <a href={withBase(`/gallery/${next.id}/`)}><span>Next</span>{next.data.title}</a>
   </nav>
 </BaseLayout>
