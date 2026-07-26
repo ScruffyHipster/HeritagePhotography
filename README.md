@@ -1,6 +1,6 @@
-# Heritage Buildings Photographer
+# Heritage Building Photographer
 
-A static Astro website for an independent architectural heritage photography practice. Content is managed in Git through Pages CMS; uploaded photographs are stored in `public/media/images`.
+A static Astro website for a photographer documenting historic buildings in Doncaster, other towns and cities, and abroad. Content is managed in Git through Pages CMS; uploaded photographs are stored in `public/media/images`.
 
 ## Local development
 

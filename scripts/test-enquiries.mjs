@@ -16,17 +16,17 @@ const order = buildEnquiry({
   replyTo: 'jo@example.com',
   item: '',
   presentation: 'Framed',
-  frame: 'Natural oak',
+  frame: 'White',
   quantity: '2',
   message: 'Please quote for delivery to London.',
-}, { kind: 'product', product: 'Pugin’s Gem — No. 4' });
-assert.equal(order.subject, 'Product enquiry: Pugin’s Gem — No. 4');
-assert.match(order.body, /Frame colour: Natural oak/);
+}, { kind: 'product', product: 'A4 Print — Doncaster Details Quiz' });
+assert.equal(order.subject, 'Product enquiry: A4 Print — Doncaster Details Quiz');
+assert.match(order.body, /Frame colour: White/);
 assert.match(order.body, /Quantity: 2/);
 
 const mailto = createMailto('heritagephotographer@icloud.com', order);
 assert.ok(mailto.startsWith('mailto:heritagephotographer@icloud.com?subject='));
-assert.ok(mailto.includes('%E2%80%99'));
+assert.ok(mailto.includes('%E2%80%94'));
 assert.ok(mailto.includes('%0A'));
 assert.ok(!mailto.includes(' '));
 

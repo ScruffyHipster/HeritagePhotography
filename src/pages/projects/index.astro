@@ -4,11 +4,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 ---
-<BaseLayout title="Photography projects" description="Long-form photographic stories exploring historic buildings, architectural movements and Britain’s built heritage.">
+<BaseLayout title="Photography projects" description="Photography projects covering Doncaster’s historic buildings, architectural details, churches and exhibitions.">
   <section class="page-hero">
     <p class="eyebrow">Projects</p>
-    <h1>Architecture as evidence, atmosphere and living memory.</h1>
-    <p class="lede">Focused studies that move from the scale of a building to the intimacy of its crafted details.</p>
+    <h1>Historic buildings through a different lens.</h1>
+    <p class="lede">Projects highlighting Doncaster’s architecture, historic buildings in need of help, detailed carvings and churches.</p>
   </section>
   <section class="listing-section">
     <div class="project-list">

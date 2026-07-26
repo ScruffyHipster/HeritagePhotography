@@ -1,8 +1,8 @@
 ---
 title: Home
-eyebrow: Britain’s built heritage
-heroTitle: Old buildings, seen through a different lens.
-introduction: I photograph the places where history remains visible — in weathered stone, changing light and the marks left by generations.
+eyebrow: Historic buildings, at home and abroad
+heroTitle: Historic buildings through a different lens.
+introduction: I have worked on many types of projects, but historic building photography is my favourite subject.
 primaryCta:
   label: Explore the work
   href: /projects/
@@ -10,17 +10,17 @@ secondaryCta:
   label: View gallery
   href: /gallery/
 featuredProjects:
-  - pugions-gem
-  - gothic-revival
-  - sacred-spaces
-featuredGallery: architectural-details
-featuredEvent: heritage-in-focus
+  - derelict-doncaster
+  - doncaster-details-quiz
+  - historic-churches-of-doncaster
+featuredGallery: doncaster-detail-quizzes-1-25
+featuredEvent: heritage-open-days
 hero:
-  alt: A monumental historic façade emerging from deep shadow
-  caption: Britain’s architectural inheritance, observed slowly.
+  alt: Photograph from the Heritage Building Photographer collection
+  caption: Historic buildings, at home and abroad.
   shape: panorama
 seo:
-  title: Heritage Buildings Photographer
-  description: Atmospheric architectural photography exploring Britain’s historic buildings, quiet details and enduring stories.
+  title: Heritage Building Photographer
+  description: Historic building photography in Doncaster, across towns and cities, and abroad.
 ---
-A considered record of remarkable places: their scale, craft, atmosphere and continued life.
+Photography highlighting quality architecture and buildings in need of restoration.

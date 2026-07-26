@@ -5,11 +5,11 @@ const basePrefix = process.env.GITHUB_ACTIONS === 'true' ? '/HeritagePhotography
 const requiredRoutes = [
   'index.html', 'about/index.html', 'projects/index.html', 'gallery/index.html',
   'events/index.html', 'shop/index.html', 'contact/index.html', '404.html',
-  'projects/pugions-gem/index.html', 'projects/gothic-revival/index.html',
-  'projects/sacred-spaces/index.html', 'projects/industrial-legacy/index.html',
-  'gallery/churches-and-chapels/index.html', 'gallery/castles-and-fortifications/index.html',
-  'gallery/stately-homes/index.html', 'gallery/ruins-and-remains/index.html',
-  'gallery/architectural-details/index.html', 'gallery/industrial-heritage/index.html',
+  'projects/derelict-doncaster/index.html', 'projects/doncaster-details-quiz/index.html',
+  'projects/historic-churches-of-doncaster/index.html', 'projects/good-bad-ugly-exhibition/index.html',
+  'gallery/doncaster-detail-quizzes-1-25/index.html', 'gallery/exhibition-photos-good-bad-ugly/index.html',
+  'gallery/heritage-open-days-2026-churches/index.html', 'gallery/streets-of-doncaster/index.html',
+  'gallery/on-tour/index.html', 'gallery/day-tripping/index.html',
   'sitemap-index.xml',
 ];
 

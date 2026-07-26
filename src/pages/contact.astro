@@ -5,12 +5,12 @@ import InquiryForm from '../components/InquiryForm.astro';
 const site = await getEntry('site', 'site');
 if (!site) throw new Error('Site settings are missing.');
 ---
-<BaseLayout title="Contact Heritage Buildings Photographer" description="Enquire about architectural photography commissions, licensing, events, prints and collaborations.">
+<BaseLayout title="Contact Heritage Building Photographer" description="Order a print or book, or ask about photographing a specific historic building in Doncaster.">
   <section class="contact-hero">
     <div>
       <p class="eyebrow">Contact</p>
-      <h1>Tell me about the building, place or story.</h1>
-      <p class="lede">For commissions, editorial licensing, collaborations, talks or print enquiries, share a few details below.</p>
+      <h1>Please contact me.</h1>
+      <p class="lede">For orders, or to ask about photographing a specific historic building in Doncaster, please use the form or email address below.</p>
       <div class="contact-direct">
         <span>Email directly</span>
         <a href={`mailto:${site.data.email}`}>{site.data.email}</a>

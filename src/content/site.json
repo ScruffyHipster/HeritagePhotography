@@ -1,11 +1,11 @@
 {
-  "name": "Heritage Buildings Photographer",
+  "name": "Heritage Building Photographer",
   "monogram": "HBP",
-  "strapline": "Architecture, atmosphere and the stories held in stone.",
+  "strapline": "Historic buildings, at home and abroad.",
   "email": "heritagephotographer@icloud.com",
   "canonicalUrl": "https://heritagephotographer.co.uk",
   "instagram": "https://www.instagram.com/old_buildings_photographer/",
-  "facebook": "https://www.facebook.com/heritagebuildingsphotographer",
+  "facebook": "https://www.facebook.com/profile.php?id=61586411768719",
   "navigation": [
     { "label": "Projects", "href": "/projects/" },
     { "label": "Gallery", "href": "/gallery/" },
@@ -14,10 +14,9 @@
     { "label": "About", "href": "/about/" },
     { "label": "Contact", "href": "/contact/" }
   ],
-  "footer": "Independent photography of Britain’s architectural heritage.",
+  "footer": "Historic buildings, at home and abroad.",
   "seo": {
-    "title": "Heritage Buildings Photographer",
-    "description": "Atmospheric architectural photography exploring Britain’s historic buildings, quiet details and enduring stories.",
-    "socialImage": "/og.png"
+    "title": "Heritage Building Photographer",
+    "description": "Historic building photography in Doncaster, across towns and cities, and abroad."
   }
 }

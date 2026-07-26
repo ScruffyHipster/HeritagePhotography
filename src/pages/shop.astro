@@ -7,11 +7,11 @@ const products = (await getCollection('products')).sort((a, b) => a.data.order -
 const site = await getEntry('site', 'site');
 if (!site) throw new Error('Site settings are missing.');
 ---
-<BaseLayout title="Prints and books" description="Fine-art architectural photography prints and limited-edition publications from Heritage Buildings Photographer.">
+<BaseLayout title="Prints and books" description="A4 photographic prints and a softback exhibition book from Heritage Building Photographer.">
   <section class="page-hero">
     <p class="eyebrow">Shop</p>
-    <h1>Architecture, made tangible.</h1>
-    <p class="lede">Small-batch prints and publications created to be lived with. Enquiries are handled personally by email.</p>
+    <h1>Exhibition merchandise.</h1>
+    <p class="lede">A4 prints are available framed or unframed, along with a softback book. Please see the gallery for other photographs.</p>
   </section>
   <section class="products listing-section">
     {products.map((product, index) => (
@@ -20,7 +20,7 @@ if (!site) throw new Error('Site settings are missing.');
           {product.data.previews.map((preview) => <ImageFrame {...preview} />)}
         </div>
         <div class="product__copy">
-          <p class="eyebrow">Edition {String(index + 1).padStart(2, '0')}</p>
+          <p class="eyebrow">Item {String(index + 1).padStart(2, '0')}</p>
           <h2>{product.data.title}</h2>
           <p>{product.data.description}</p>
           <p class="price">{product.data.price}</p>

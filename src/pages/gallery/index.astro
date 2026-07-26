@@ -5,11 +5,11 @@ import ImageFrame from '../../components/ImageFrame.astro';
 import { withBase } from '../../lib/paths';
 const galleries = (await getCollection('galleries')).sort((a, b) => a.data.order - b.data.order);
 ---
-<BaseLayout title="Heritage photography gallery" description="Browse architectural photography by subject, from churches and castles to ruins, industrial heritage and crafted detail.">
+<BaseLayout title="Heritage photography gallery" description="Browse photographs from Doncaster, exhibitions, Heritage Open Days, tours and day trips.">
   <section class="page-hero">
     <p class="eyebrow">Gallery index</p>
-    <h1>An evolving archive of place, craft and time.</h1>
-    <p class="lede">Browse the collection by subject. Every gallery is arranged as a visual passage rather than a catalogue.</p>
+    <h1>Doncaster, exhibitions and travels.</h1>
+    <p class="lede">Browse photographs from the Doncaster Detail Quizzes, Heritage Open Days, city streets, tours and day trips.</p>
   </section>
   <section class="gallery-grid listing-section">
     {galleries.map((gallery, index) => (

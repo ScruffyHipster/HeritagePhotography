@@ -16,15 +16,7 @@ const { Content } = await render(about);
     {about.data.hero && <ImageFrame {...about.data.hero} priority />}
   </section>
   <section class="prose-layout">
-    <aside><p class="section-number">The approach</p></aside>
+    <aside><p class="section-number">My work</p></aside>
     <article class="prose"><Content /></article>
-  </section>
-  <section class="principles listing-section">
-    <div class="section-heading"><p class="eyebrow">Working principles</p><h2>A faithful record, with feeling.</h2></div>
-    <div class="principles__grid">
-      <article><span>01</span><h3>Observe first</h3><p>Every building sets its own pace. Time spent looking shapes the photographs that follow.</p></article>
-      <article><span>02</span><h3>Respect the fabric</h3><p>Historic places are handled carefully, represented honestly and never reduced to mere backdrop.</p></article>
-      <article><span>03</span><h3>Tell the whole story</h3><p>Wide architectural views sit alongside materials, marks and details that reveal use and age.</p></article>
-    </div>
   </section>
 </BaseLayout>

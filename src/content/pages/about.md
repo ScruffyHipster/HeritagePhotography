@@ -1,8 +1,8 @@
 ---
 title: About
 eyebrow: Behind the camera
-heroTitle: Looking closely at the places that have outlasted us.
-introduction: Heritage Buildings Photographer is an independent practice devoted to architecture, history and a slower way of seeing.
+heroTitle: Photographer and heritage enthusiast, always looking for a new perspective.
+introduction: Following retirement, I was able to combine my passion for photography and heritage.
 primaryCta:
   label: Start a conversation
   href: /contact/
@@ -10,15 +10,13 @@ secondaryCta:
   label: Browse projects
   href: /projects/
 hero:
-  alt: A photographer standing beneath the vaulted stonework of a historic building
-  caption: Patient observation, careful composition and respect for place.
+  alt: Photograph from the Heritage Building Photographer collection
+  caption: Historic buildings through a different lens.
   shape: portrait
 seo:
   title: About the photographer
-  description: Discover the approach behind atmospheric photography of Britain’s historic buildings and architectural heritage.
+  description: About a photographer and heritage enthusiast documenting historic buildings in Doncaster, other towns and cities, and abroad.
 ---
-The work begins with time: time to understand a building, notice how light moves through it and find the details that reveal how it was made and used.
+I photograph buildings across many towns and cities, as well as abroad.
 
-From ecclesiastical interiors and Gothic Revival landmarks to industrial remains and domestic architecture, each commission is approached as both a visual story and a lasting record. The aim is not simply to document a façade, but to communicate what it feels like to stand there.
-
-The resulting images are available for editorial use, heritage organisations, private commissions, exhibitions and selected fine-art prints.
+My work highlights quality architecture and buildings in need of restoration, helping to raise interest in heritage conservation.
