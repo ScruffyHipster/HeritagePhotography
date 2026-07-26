@@ -1,0 +1,42 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ImageFrame from '../../components/ImageFrame.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project, projects } }));
+}
+const { project, projects } = Astro.props;
+const ordered = [...projects].sort((a, b) => a.data.order - b.data.order);
+const index = ordered.findIndex((item) => item.id === project.id);
+const previous = ordered[(index - 1 + ordered.length) % ordered.length];
+const next = ordered[(index + 1) % ordered.length];
+const { Content } = await render(project);
+---
+<BaseLayout title={project.data.seo?.title ?? project.data.title} description={project.data.seo?.description ?? project.data.summary}>
+  <article>
+    <header class="detail-hero">
+      <div class="detail-hero__copy">
+        <p class="eyebrow">Project {String(index + 1).padStart(2, '0')}</p>
+        <h1>{project.data.title}</h1>
+        <p class="lede">{project.data.summary}</p>
+      </div>
+      <ImageFrame {...project.data.hero} priority parallax />
+    </header>
+    <div class="prose-layout">
+      <aside><p class="section-number">The story</p></aside>
+      <div class="prose"><Content /></div>
+    </div>
+    <section class="photo-sequence" aria-label={`${project.data.title} photographs`}>
+      {project.data.gallery.map((photo, photoIndex) => (
+        <ImageFrame {...photo} class={photoIndex % 2 === 1 ? 'photo-sequence__offset' : ''} />
+      ))}
+    </section>
+  </article>
+  <nav class="previous-next" aria-label="Project navigation">
+    <a href={`/projects/${previous.id}/`}><span>Previous</span>{previous.data.title}</a>
+    <a href="/projects/"><span>Index</span>All projects</a>
+    <a href={`/projects/${next.id}/`}><span>Next</span>{next.data.title}</a>
+  </nav>
+</BaseLayout>

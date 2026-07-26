@@ -1,0 +1,48 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ImageFrame from '../components/ImageFrame.astro';
+const now = new Date();
+now.setHours(0, 0, 0, 0);
+const events = (await getCollection('events')).filter((event) => event.data.published);
+const upcoming = events
+  .filter((event) => !event.data.startDate || event.data.startDate >= now)
+  .sort((a, b) => (a.data.startDate?.getTime() ?? Infinity) - (b.data.startDate?.getTime() ?? Infinity));
+const past = events
+  .filter((event) => event.data.startDate && event.data.startDate < now)
+  .sort((a, b) => (b.data.startDate?.getTime() ?? 0) - (a.data.startDate?.getTime() ?? 0));
+const formatDate = (event: CollectionEntry<'events'>) => event.data.dateLabel ?? event.data.startDate?.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) ?? 'Dates TBC';
+---
+<BaseLayout title="Events and talks" description="Heritage photography talks, guided walks, workshops and exhibitions.">
+  <section class="page-hero">
+    <p class="eyebrow">Events</p>
+    <h1>Meet among the buildings.</h1>
+    <p class="lede">Talks, walks and workshops for people who want to look more closely at historic architecture.</p>
+  </section>
+  <section class="listing-section event-list">
+    <div class="section-heading"><p class="eyebrow">Upcoming</p><h2>Join the next event.</h2></div>
+    {upcoming.length ? upcoming.map((event, index) => (
+      <article class="event-row reveal">
+        <span class="index">{String(index + 1).padStart(2, '0')}</span>
+        <ImageFrame {...event.data.image} />
+        <div>
+          <p class="eyebrow">{formatDate(event)}</p>
+          <h3>{event.data.title}</h3>
+          <p>{event.data.description}</p>
+          <dl><div><dt>Venue</dt><dd>{event.data.venue}</dd></div></dl>
+          {event.data.bookingLink
+            ? <a class="button" href={event.data.bookingLink}>Book a place</a>
+            : <a class="text-link" href={`/contact/?subject=${encodeURIComponent(event.data.title)}`}>Register interest</a>}
+        </div>
+      </article>
+    )) : <p>No new dates have been announced. Please check back soon.</p>}
+  </section>
+  {past.length > 0 && (
+    <section class="archive listing-section">
+      <div class="section-heading"><p class="eyebrow">Archive</p><h2>Past events.</h2></div>
+      {past.map((event) => (
+        <article><div><p>{formatDate(event)} · {event.data.venue}</p><h3>{event.data.title}</h3></div><p>{event.data.description}</p></article>
+      ))}
+    </section>
+  )}
+</BaseLayout>

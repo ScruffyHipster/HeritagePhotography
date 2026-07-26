@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ImageFrame from '../../components/ImageFrame.astro';
+const galleries = (await getCollection('galleries')).sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout title="Heritage photography gallery" description="Browse architectural photography by subject, from churches and castles to ruins, industrial heritage and crafted detail.">
+  <section class="page-hero">
+    <p class="eyebrow">Gallery index</p>
+    <h1>An evolving archive of place, craft and time.</h1>
+    <p class="lede">Browse the collection by subject. Every gallery is arranged as a visual passage rather than a catalogue.</p>
+  </section>
+  <section class="gallery-grid listing-section">
+    {galleries.map((gallery, index) => (
+      <article class:list={['gallery-card', index % 3 === 1 && 'gallery-card--raised', 'reveal']}>
+        <a href={`/gallery/${gallery.id}/`}>
+          <ImageFrame {...gallery.data.cover} />
+          <span class="index">{String(index + 1).padStart(2, '0')}</span>
+          <h2>{gallery.data.title}</h2>
+          <p>{gallery.data.introduction}</p>
+        </a>
+      </article>
+    ))}
+  </section>
+</BaseLayout>

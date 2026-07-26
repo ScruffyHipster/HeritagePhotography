@@ -1,0 +1,40 @@
+---
+interface Props {
+  image?: string;
+  alt: string;
+  caption?: string;
+  shape?: 'arch' | 'circle' | 'portrait' | 'landscape' | 'panorama' | 'square';
+  class?: string;
+  priority?: boolean;
+  parallax?: boolean;
+}
+
+const {
+  image,
+  alt,
+  caption,
+  shape = 'landscape',
+  class: className = '',
+  priority = false,
+  parallax = false,
+} = Astro.props;
+---
+<figure class:list={['image-frame', `image-frame--${shape}`, className]} data-parallax={parallax ? '' : undefined}>
+  <div class="image-frame__media">
+    {image ? (
+      <img
+        src={image}
+        alt={alt}
+        loading={priority ? 'eager' : 'lazy'}
+        fetchpriority={priority ? 'high' : 'auto'}
+        decoding="async"
+      />
+    ) : (
+      <div class="image-frame__placeholder" role="img" aria-label={alt}>
+        <span>{shape}</span>
+        <small>Photography forthcoming</small>
+      </div>
+    )}
+  </div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

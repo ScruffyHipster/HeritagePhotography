@@ -1,0 +1,28 @@
+{
+  "name": "heritage-photographer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "test:routes": "node scripts/check-routes.mjs",
+    "test:enquiries": "node scripts/test-enquiries.mjs",
+    "test:html": "html-validate \"dist/**/*.html\"",
+    "test": "npm run test:routes && npm run test:enquiries && npm run test:html"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "latest",
+    "@fontsource/cormorant-garamond": "latest",
+    "@fontsource/manrope": "latest",
+    "astro": "latest",
+    "sharp": "latest"
+  },
+  "devDependencies": {
+    "@astrojs/check": "latest",
+    "html-validate": "^11.5.6",
+    "typescript": "latest"
+  }
+}

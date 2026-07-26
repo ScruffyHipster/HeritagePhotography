@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout title="Photography projects" description="Long-form photographic stories exploring historic buildings, architectural movements and Britain’s built heritage.">
+  <section class="page-hero">
+    <p class="eyebrow">Projects</p>
+    <h1>Architecture as evidence, atmosphere and living memory.</h1>
+    <p class="lede">Focused studies that move from the scale of a building to the intimacy of its crafted details.</p>
+  </section>
+  <section class="listing-section">
+    <div class="project-list">
+      {projects.map((project, index) => <ProjectCard project={project} index={index} />)}
+    </div>
+  </section>
+</BaseLayout>

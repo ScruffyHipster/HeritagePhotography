@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ImageFrame from '../../components/ImageFrame.astro';
+export async function getStaticPaths() {
+  const galleries = await getCollection('galleries');
+  return galleries.map((gallery) => ({ params: { slug: gallery.id }, props: { gallery, galleries } }));
+}
+const { gallery, galleries } = Astro.props;
+const ordered = [...galleries].sort((a, b) => a.data.order - b.data.order);
+const index = ordered.findIndex((item) => item.id === gallery.id);
+const previous = ordered[(index - 1 + ordered.length) % ordered.length];
+const next = ordered[(index + 1) % ordered.length];
+---
+<BaseLayout title={gallery.data.seo?.title ?? gallery.data.title} description={gallery.data.seo?.description ?? gallery.data.introduction}>
+  <header class="detail-hero detail-hero--gallery">
+    <div class="detail-hero__copy">
+      <p class="eyebrow">Gallery {String(index + 1).padStart(2, '0')}</p>
+      <h1>{gallery.data.title}</h1>
+      <p class="lede">{gallery.data.introduction}</p>
+    </div>
+    <ImageFrame {...gallery.data.cover} priority />
+  </header>
+  <section class="masonry-sequence" aria-label={`${gallery.data.title} photographs`}>
+    {gallery.data.photos.map((photo, photoIndex) => (
+      <ImageFrame {...photo} class={`masonry-sequence__item-${photoIndex + 1} reveal`} />
+    ))}
+  </section>
+  <nav class="previous-next" aria-label="Gallery navigation">
+    <a href={`/gallery/${previous.id}/`}><span>Previous</span>{previous.data.title}</a>
+    <a href="/gallery/"><span>Index</span>All galleries</a>
+    <a href={`/gallery/${next.id}/`}><span>Next</span>{next.data.title}</a>
+  </nav>
+</BaseLayout>

@@ -1,0 +1,37 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ImageFrame from '../components/ImageFrame.astro';
+import InquiryForm from '../components/InquiryForm.astro';
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+const site = await getEntry('site', 'site');
+if (!site) throw new Error('Site settings are missing.');
+---
+<BaseLayout title="Prints and books" description="Fine-art architectural photography prints and limited-edition publications from Heritage Buildings Photographer.">
+  <section class="page-hero">
+    <p class="eyebrow">Shop</p>
+    <h1>Architecture, made tangible.</h1>
+    <p class="lede">Small-batch prints and publications created to be lived with. Enquiries are handled personally by email.</p>
+  </section>
+  <section class="products listing-section">
+    {products.map((product, index) => (
+      <article class="product reveal">
+        <div class="product__visuals">
+          {product.data.previews.map((preview) => <ImageFrame {...preview} />)}
+        </div>
+        <div class="product__copy">
+          <p class="eyebrow">Edition {String(index + 1).padStart(2, '0')}</p>
+          <h2>{product.data.title}</h2>
+          <p>{product.data.description}</p>
+          <p class="price">{product.data.price}</p>
+          <ul>{product.data.options.map((option) => <li>{option}</li>)}</ul>
+          <p class="small">{product.data.postageNote}</p>
+          <details>
+            <summary class="button">{product.data.enquiryLabel}</summary>
+            <InquiryForm kind="product" product={product.data.title} email={site.data.email} buttonLabel="Compose order email" />
+          </details>
+        </div>
+      </article>
+    ))}
+  </section>
+</BaseLayout>

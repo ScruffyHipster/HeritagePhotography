@@ -1,0 +1,99 @@
+---
+interface Props {
+  kind?: 'contact' | 'product';
+  product?: string;
+  buttonLabel?: string;
+  email: string;
+}
+const { kind = 'contact', product = '', buttonLabel = 'Compose email', email } = Astro.props;
+---
+<form class="inquiry-form" data-inquiry-form data-kind={kind} data-email={email} data-product={product}>
+  <div class="field-row">
+    <label>
+      <span>Your name</span>
+      <input name="name" type="text" autocomplete="name" required />
+    </label>
+    <label>
+      <span>Email address</span>
+      <input name="replyTo" type="email" autocomplete="email" required />
+    </label>
+  </div>
+  {kind === 'product' ? (
+    <>
+      <label>
+        <span>Photograph or item name</span>
+        <input name="item" type="text" value={product} required />
+      </label>
+      <div class="field-row field-row--three">
+        <label>
+          <span>Presentation</span>
+          <select name="presentation"><option>Unframed</option><option>Framed</option></select>
+        </label>
+        <label>
+          <span>Frame colour</span>
+          <select name="frame"><option>Not applicable</option><option>Black</option><option>Natural oak</option></select>
+        </label>
+        <label>
+          <span>Quantity</span>
+          <input name="quantity" type="number" value="1" min="1" max="20" required />
+        </label>
+      </div>
+    </>
+  ) : (
+    <label>
+      <span>What are you interested in?</span>
+      <select name="topic">
+        <option>Photography commission</option>
+        <option>Editorial licensing</option>
+        <option>Prints and books</option>
+        <option>Talks and events</option>
+        <option>Something else</option>
+      </select>
+    </label>
+  )}
+  <label>
+    <span>{kind === 'product' ? 'Notes' : 'Tell me about your project'}</span>
+    <textarea name="message" rows="6" required></textarea>
+  </label>
+  <div class="form-actions">
+    <button class="button" type="submit">{buttonLabel}</button>
+    <button class="button button--quiet" type="button" data-copy>Copy enquiry</button>
+  </div>
+  <p class="form-status" role="status" aria-live="polite" data-status>
+    This form opens your email app. You can also email <a href={`mailto:${email}`}>{email}</a>.
+  </p>
+</form>
+
+<script>
+  import { buildEnquiry, createMailto } from '../lib/enquiry.mjs';
+
+  document.querySelectorAll<HTMLFormElement>('[data-inquiry-form]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('[data-status]');
+    const getEmail = () => {
+      const data = new FormData(form);
+      return buildEnquiry(Object.fromEntries(data.entries()), {
+        kind: form.dataset.kind,
+        product: form.dataset.product,
+      });
+    };
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const enquiry = getEmail();
+      window.location.href = createMailto(form.dataset.email, enquiry);
+      if (status) status.textContent = 'Your email app should open with the enquiry ready to send.';
+    });
+
+    form.querySelector<HTMLButtonElement>('[data-copy]')?.addEventListener('click', async () => {
+      if (!form.reportValidity()) return;
+      const { subject, body } = getEmail();
+      try {
+        await navigator.clipboard.writeText(`${subject}\n\n${body}`);
+        if (status) status.textContent = 'Enquiry copied to your clipboard.';
+      } catch {
+        if (status) status.textContent = 'Copy was unavailable. Select the visible email address to continue.';
+      }
+    });
+  });
+</script>

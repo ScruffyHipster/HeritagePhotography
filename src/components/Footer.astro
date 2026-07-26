@@ -1,0 +1,23 @@
+---
+interface Props {
+  email: string;
+  instagram: string;
+  facebook: string;
+  footer: string;
+}
+const { email, instagram, facebook, footer } = Astro.props;
+---
+<footer class="footer">
+  <div class="footer__lead">
+    <p class="eyebrow">Commission · collaborate · collect</p>
+    <h2>Let’s make a lasting record.</h2>
+    <a class="text-link text-link--large" href={`mailto:${email}`}>{email}</a>
+  </div>
+  <div class="footer__base">
+    <p>© {new Date().getFullYear()} {footer}</p>
+    <div class="footer__links">
+      <a href={instagram} target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a>
+      <a href={facebook} target="_blank" rel="noopener noreferrer">Facebook <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,92 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ImageFrame from '../components/ImageFrame.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+const home = await getEntry('pages', 'home');
+if (!home) throw new Error('Homepage content is missing.');
+const projects = (await getCollection('projects'))
+  .filter((project) => home.data.featuredProjects.includes(project.id))
+  .sort((a, b) => home.data.featuredProjects.indexOf(a.id) - home.data.featuredProjects.indexOf(b.id));
+const galleries = await getCollection('galleries');
+const featuredGallery = galleries.find((gallery) => gallery.id === home.data.featuredGallery);
+const events = await getCollection('events');
+const featuredEvent = events.find((event) => event.id === home.data.featuredEvent);
+---
+<BaseLayout title={home.data.seo?.title} description={home.data.seo?.description}>
+  <section class="home-hero">
+    <div class="home-hero__copy">
+      <p class="eyebrow">{home.data.eyebrow}</p>
+      <h1>{home.data.heroTitle}</h1>
+      <p class="lede">{home.data.introduction}</p>
+      <div class="actions">
+        {home.data.primaryCta && <a class="button" href={home.data.primaryCta.href}>{home.data.primaryCta.label}</a>}
+        {home.data.secondaryCta && <a class="text-link" href={home.data.secondaryCta.href}>{home.data.secondaryCta.label}</a>}
+      </div>
+    </div>
+    {home.data.hero && <ImageFrame {...home.data.hero} priority parallax class="home-hero__image" />}
+    <p class="scroll-cue" aria-hidden="true">Scroll to explore <i></i></p>
+  </section>
+
+  <section class="intro-section section-grid reveal">
+    <p class="section-number">01 — Introduction</p>
+    <div class="intro-section__copy">
+      <h2>Photography rooted in place, patience and architectural character.</h2>
+      <p>Buildings carry the evidence of how people lived, worked, worshipped and imagined the future. These photographs look beyond the record shot to find atmosphere, craft and human presence.</p>
+      <a class="text-link" href="/about/">Meet the photographer</a>
+    </div>
+    <ImageFrame alt="A weathered architectural fragment caught by a narrow shaft of light" shape="circle" caption="The smallest detail can hold the largest story." />
+  </section>
+
+  <section class="lens-passage">
+    <div class="lens-passage__title reveal">
+      <span>Through a</span>
+      <h2>different lens</h2>
+    </div>
+    <ImageFrame alt="A sequence of stone arches dissolving into shadow" shape="arch" parallax />
+    <p class="lens-passage__note reveal">Not simply what a building looks like, but how it feels to encounter it.</p>
+  </section>
+
+  <section class="listing-section">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Selected work</p>
+        <h2>Stories held in stone.</h2>
+      </div>
+      <a class="text-link" href="/projects/">All projects</a>
+    </div>
+    <div class="project-list">
+      {projects.map((project, index) => <ProjectCard project={project} index={index} />)}
+    </div>
+  </section>
+
+  {featuredEvent && (
+    <section class="event-feature section-grid reveal">
+      <p class="section-number">02 — In person</p>
+      <ImageFrame {...featuredEvent.data.image} />
+      <div class="event-feature__copy">
+        <p class="eyebrow">Upcoming event</p>
+        <h2>{featuredEvent.data.title}</h2>
+        <p>{featuredEvent.data.description}</p>
+        <dl>
+          <div><dt>When</dt><dd>{featuredEvent.data.dateLabel ?? featuredEvent.data.startDate?.toLocaleDateString('en-GB', { dateStyle: 'long' })}</dd></div>
+          <div><dt>Where</dt><dd>{featuredEvent.data.venue}</dd></div>
+        </dl>
+        <a class="text-link" href="/events/">Event details</a>
+      </div>
+    </section>
+  )}
+
+  {featuredGallery && (
+    <section class="gallery-invite reveal">
+      <ImageFrame {...featuredGallery.data.cover} shape="panorama" parallax />
+      <div class="gallery-invite__copy">
+        <p class="eyebrow">The archive</p>
+        <h2>A visual index of buildings, details and light.</h2>
+        <p>{featuredGallery.data.introduction}</p>
+        <a class="button button--light" href="/gallery/">Enter the gallery</a>
+      </div>
+    </section>
+  )}
+</BaseLayout>

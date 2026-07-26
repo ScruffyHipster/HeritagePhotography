@@ -1,0 +1,21 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import InquiryForm from '../components/InquiryForm.astro';
+const site = await getEntry('site', 'site');
+if (!site) throw new Error('Site settings are missing.');
+---
+<BaseLayout title="Contact Heritage Buildings Photographer" description="Enquire about architectural photography commissions, licensing, events, prints and collaborations.">
+  <section class="contact-hero">
+    <div>
+      <p class="eyebrow">Contact</p>
+      <h1>Tell me about the building, place or story.</h1>
+      <p class="lede">For commissions, editorial licensing, collaborations, talks or print enquiries, share a few details below.</p>
+      <div class="contact-direct">
+        <span>Email directly</span>
+        <a href={`mailto:${site.data.email}`}>{site.data.email}</a>
+      </div>
+    </div>
+    <InquiryForm email={site.data.email} />
+  </section>
+</BaseLayout>

@@ -1,0 +1,232 @@
+media:
+  input: public/media/images
+  output: /media/images
+  rename: safe
+  extensions: [jpg, jpeg, png, webp, avif]
+
+settings:
+  content:
+    merge: true
+  commit:
+    templates:
+      create: "content: create {name}"
+      update: "content: update {name}"
+      delete: "content: remove {name}"
+
+components:
+  seo:
+    type: object
+    label: Search & social
+    fields:
+      - { name: title, label: Page title, type: string }
+      - { name: description, label: Description, type: text }
+      - { name: socialImage, label: Social image, type: image }
+  image_slot:
+    type: object
+    label: Image
+    fields:
+      - { name: image, label: Image file, type: image }
+      - { name: alt, label: Alternative text, type: string, required: true }
+      - { name: caption, label: Caption, type: string }
+      - name: shape
+        label: Frame shape
+        type: select
+        required: true
+        options:
+          values: [arch, circle, portrait, landscape, panorama, square]
+  cta:
+    type: object
+    label: Call to action
+    fields:
+      - { name: label, type: string, required: true }
+      - { name: href, label: Link, type: string, required: true }
+
+content:
+  - name: site_group
+    label: Site
+    type: group
+    items:
+      - name: site_settings
+        label: Site settings
+        type: file
+        path: src/content/site.json
+        format: json
+        operations: { delete: false, rename: false }
+        fields:
+          - { name: name, type: string, required: true }
+          - { name: monogram, type: string, required: true }
+          - { name: strapline, type: text, required: true }
+          - { name: email, type: string, required: true }
+          - { name: canonicalUrl, label: Canonical URL, type: string, required: true }
+          - { name: instagram, type: string, required: true }
+          - { name: facebook, type: string, required: true }
+          - name: navigation
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{label}"
+            fields:
+              - { name: label, type: string, required: true }
+              - { name: href, type: string, required: true }
+          - { name: footer, type: text, required: true }
+          - { name: seo, component: seo }
+      - name: homepage
+        label: Homepage
+        type: file
+        path: src/content/pages/home.md
+        operations: { delete: false, rename: false }
+        fields:
+          - { name: title, type: string, readonly: true }
+          - { name: eyebrow, type: string }
+          - { name: heroTitle, label: Hero title, type: string, required: true }
+          - { name: introduction, type: text, required: true }
+          - { name: primaryCta, label: Primary action, component: cta }
+          - { name: secondaryCta, label: Secondary action, component: cta }
+          - name: featuredProjects
+            label: Featured projects
+            type: reference
+            options:
+              collection: projects
+              multiple: true
+              min: 1
+              max: 4
+              value: "{name}"
+              label: "{primary}"
+          - name: featuredGallery
+            label: Featured gallery
+            type: reference
+            options: { collection: galleries, value: "{name}", label: "{primary}" }
+          - name: featuredEvent
+            label: Featured event
+            type: reference
+            options: { collection: events, value: "{name}", label: "{primary}" }
+          - { name: hero, component: image_slot }
+          - { name: body, type: rich-text }
+          - { name: seo, component: seo }
+      - name: about
+        label: About page
+        type: file
+        path: src/content/pages/about.md
+        operations: { delete: false, rename: false }
+        fields:
+          - { name: title, type: string, readonly: true }
+          - { name: eyebrow, type: string }
+          - { name: heroTitle, label: Hero title, type: string, required: true }
+          - { name: introduction, type: text, required: true }
+          - { name: primaryCta, label: Primary action, component: cta }
+          - { name: secondaryCta, label: Secondary action, component: cta }
+          - { name: hero, component: image_slot }
+          - { name: body, type: rich-text }
+          - { name: seo, component: seo }
+
+  - name: work_group
+    label: Work
+    type: group
+    items:
+      - name: projects
+        label: Projects
+        type: collection
+        path: src/content/projects
+        filename: { template: "{primary}.md", field: create }
+        view:
+          fields: [title, featured, order]
+          primary: title
+          sort: [order, title]
+          default: { sort: order, order: asc }
+        fields:
+          - { name: title, type: string, required: true }
+          - { name: summary, type: text, required: true }
+          - { name: featured, type: boolean, default: false }
+          - { name: order, type: number, required: true }
+          - { name: hero, component: image_slot, required: true }
+          - name: gallery
+            label: Project images
+            component: image_slot
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{alt}"
+          - name: relatedGallery
+            label: Related gallery
+            type: reference
+            options: { collection: galleries, value: "{name}", label: "{primary}" }
+          - { name: body, type: rich-text }
+          - { name: seo, component: seo }
+      - name: galleries
+        label: Galleries
+        type: collection
+        path: src/content/galleries
+        filename: { template: "{primary}.md", field: create }
+        view:
+          fields: [title, order]
+          primary: title
+          sort: [order, title]
+          default: { sort: order, order: asc }
+        fields:
+          - { name: title, type: string, required: true }
+          - { name: introduction, type: text, required: true }
+          - { name: order, type: number, required: true }
+          - { name: cover, component: image_slot, required: true }
+          - name: photos
+            component: image_slot
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{alt}"
+          - { name: seo, component: seo }
+
+  - name: events_group
+    label: Events
+    type: group
+    items:
+      - name: events
+        label: Events
+        type: collection
+        path: src/content/events
+        filename: { template: "{primary}.md", field: create }
+        view:
+          fields: [title, startDate, dateLabel, published]
+          primary: title
+          sort: [startDate, title]
+        fields:
+          - { name: title, type: string, required: true }
+          - { name: description, type: text, required: true }
+          - { name: venue, type: string, required: true }
+          - { name: startDate, label: Start date, type: date }
+          - { name: endDate, label: End date, type: date }
+          - { name: dateLabel, label: Fallback date label, type: string, description: "Use for Dates TBC or another non-specific date." }
+          - { name: image, component: image_slot, required: true }
+          - { name: bookingLink, label: Booking link, type: string }
+          - { name: published, type: boolean, default: true }
+          - { name: seo, component: seo }
+
+  - name: shop_group
+    label: Shop
+    type: group
+    items:
+      - name: products
+        label: Products
+        type: collection
+        path: src/content/products
+        filename: { template: "{primary}.md", field: create }
+        view:
+          fields: [title, price, order]
+          primary: title
+          sort: [order, title]
+          default: { sort: order, order: asc }
+        fields:
+          - { name: title, type: string, required: true }
+          - { name: description, type: text, required: true }
+          - { name: price, type: string, required: true }
+          - { name: postageNote, label: Postage note, type: text, required: true }
+          - { name: options, type: string, list: true }
+          - name: previews
+            component: image_slot
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{alt}"
+          - { name: enquiryLabel, label: Enquiry button label, type: string, required: true }
+          - { name: order, type: number, required: true }
+          - { name: seo, component: seo }
