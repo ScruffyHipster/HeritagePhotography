@@ -658,8 +658,16 @@ details[open] summary { margin-bottom: 2rem; }
   .project-list { gap: 7rem; }
   .project-card__copy { grid-template-columns: 1fr; }
   .project-card__copy .index { margin-bottom: 0; }
-  .gallery-invite .image-frame__media { min-height: 42rem; }
-  .gallery-invite__copy { top: auto; bottom: 3rem; transform: none; }
+  .gallery-invite .image-frame__media {
+    height: clamp(13rem, 58vw, 18rem);
+    min-height: 0;
+    aspect-ratio: auto;
+  }
+  .gallery-invite__copy {
+    position: static;
+    padding: 3rem var(--gutter) 4rem;
+    transform: none;
+  }
   .gallery-grid { grid-template-columns: 1fr; }
   .gallery-card--raised { margin-top: 0; }
   .page-hero { min-height: 70vh; padding-top: calc(var(--header-height) + 6rem); }
