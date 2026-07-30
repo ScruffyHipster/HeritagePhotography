@@ -31,21 +31,29 @@ const site = defineCollection({
   }),
 });
 
+const page = z.object({
+  eyebrow: z.string().optional(),
+  heroTitle: z.string(),
+  introduction: z.string(),
+  primaryCta: z.object({ label: z.string(), href: z.string() }).optional(),
+  secondaryCta: z.object({ label: z.string(), href: z.string() }).optional(),
+  featuredProjects: z.array(z.string()).default([]),
+  featuredGallery: z.string().optional(),
+  featuredEvent: z.string().optional(),
+  hero: imageSlot.optional(),
+  seo,
+});
+
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/pages' }),
-  schema: z.object({
-    title: z.string(),
-    eyebrow: z.string().optional(),
-    heroTitle: z.string(),
-    introduction: z.string(),
-    primaryCta: z.object({ label: z.string(), href: z.string() }).optional(),
-    secondaryCta: z.object({ label: z.string(), href: z.string() }).optional(),
-    featuredProjects: z.array(z.string()).default([]),
-    featuredGallery: z.string().optional(),
-    featuredEvent: z.string().optional(),
-    hero: imageSlot.optional(),
-    seo,
-  }),
+  schema: z.discriminatedUnion('title', [
+    page.extend({
+      title: z.literal('Home'),
+      introductionImage: imageSlot,
+      lensImage: imageSlot,
+    }),
+    page.extend({ title: z.literal('About') }),
+  ]),
 });
 
 const projects = defineCollection({

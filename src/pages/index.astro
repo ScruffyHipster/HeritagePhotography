@@ -8,6 +8,7 @@ import { formatEventDate } from '../lib/dates';
 
 const home = await getEntry('pages', 'home');
 if (!home) throw new Error('Homepage content is missing.');
+if (home.data.title !== 'Home') throw new Error('Homepage content has the wrong page type.');
 const projects = (await getCollection('projects'))
   .filter((project) => home.data.featuredProjects.includes(project.id))
   .sort((a, b) => home.data.featuredProjects.indexOf(a.id) - home.data.featuredProjects.indexOf(b.id));
@@ -38,7 +39,7 @@ const featuredEvent = events.find((event) => event.id === home.data.featuredEven
       <p>Following retirement, I was able to combine my passion for photography and heritage. I photograph buildings across many towns and cities, as well as abroad.</p>
       <a class="text-link" href={withBase('/about/')}>Meet the photographer</a>
     </div>
-    <ImageFrame alt="Photograph from the Heritage Building Photographer collection" shape="circle" caption="Highlighting quality architecture and buildings in need of restoration." />
+    <ImageFrame {...home.data.introductionImage} />
   </section>
 
   <section class="lens-passage">
@@ -46,7 +47,7 @@ const featuredEvent = events.find((event) => event.id === home.data.featuredEven
       <span>Through a</span>
       <h2>different lens</h2>
     </div>
-    <ImageFrame alt="A sequence of stone arches dissolving into shadow" shape="arch" parallax />
+    <ImageFrame {...home.data.lensImage} parallax />
     <p class="lens-passage__note reveal">Historic buildings, at home and abroad.</p>
   </section>
 

@@ -19,6 +19,13 @@ hero:
   alt: Photograph from the Heritage Building Photographer collection
   caption: Historic buildings, at home and abroad.
   shape: panorama
+introductionImage:
+  alt: Photograph from the Heritage Building Photographer collection
+  caption: Highlighting quality architecture and buildings in need of restoration.
+  shape: circle
+lensImage:
+  alt: A sequence of stone arches dissolving into shadow
+  shape: arch
 seo:
   title: Heritage Building Photographer
   description: Historic building photography in Doncaster, across towns and cities, and abroad.

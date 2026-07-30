@@ -102,6 +102,8 @@ content:
             type: reference
             options: { collection: events, value: "{name}", label: "{primary}" }
           - { name: hero, component: image_slot }
+          - { name: introductionImage, label: Introduction image, component: image_slot, required: true }
+          - { name: lensImage, label: Different lens image, component: image_slot, required: true }
           - { name: body, type: rich-text }
           - { name: seo, component: seo }
       - name: about
