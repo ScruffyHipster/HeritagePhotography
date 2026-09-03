@@ -1,12 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { withBase } from '../lib/paths';
+import { getEntry } from 'astro:content';
+const page = await getEntry('pages', 'not-found');
+if (!page || page.data.title !== 'Not Found') throw new Error('Not-found page content is missing.');
 ---
-<BaseLayout title="Page not found">
+<BaseLayout title={page.data.seo?.title} description={page.data.seo?.description} socialImage={page.data.seo?.socialImage}>
   <section class="page-hero page-hero--error">
-    <p class="eyebrow">404</p>
-    <h1>This path has faded from view.</h1>
-    <p class="lede">The page may have moved, but the archive is still close at hand.</p>
-    <div class="actions"><a class="button" href={withBase('/')}>Return home</a><a class="text-link" href={withBase('/gallery/')}>Browse the gallery</a></div>
+    <p class="eyebrow">{page.data.eyebrow}</p>
+    <h1>{page.data.heroTitle}</h1>
+    <p class="lede">{page.data.introduction}</p>
+    <div class="actions"><a class="button" href={withBase(page.data.primaryCta.href)}>{page.data.primaryCta.label}</a><a class="text-link" href={withBase(page.data.secondaryCta.href)}>{page.data.secondaryCta.label}</a></div>
   </section>
 </BaseLayout>

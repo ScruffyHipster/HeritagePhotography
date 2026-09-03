@@ -1,18 +1,20 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const page = await getEntry('pages', 'projects');
+if (!page || page.data.title !== 'Projects') throw new Error('Projects page content is missing.');
 ---
-<BaseLayout title="Photography projects" description="Photography projects covering Doncaster’s historic buildings, architectural details, churches and exhibitions.">
+<BaseLayout title={page.data.seo?.title} description={page.data.seo?.description} socialImage={page.data.seo?.socialImage}>
   <section class="page-hero">
-    <p class="eyebrow">Projects</p>
-    <h1>Historic buildings through a different lens.</h1>
-    <p class="lede">Projects highlighting Doncaster’s architecture, historic buildings in need of help, detailed carvings and churches.</p>
+    <p class="eyebrow">{page.data.eyebrow}</p>
+    <h1>{page.data.heroTitle}</h1>
+    <p class="lede">{page.data.introduction}</p>
   </section>
   <section class="listing-section">
     <div class="project-list">
-      {projects.map((project, index) => <ProjectCard project={project} index={index} />)}
+      {projects.map((project, index) => <ProjectCard project={project} index={index} copy={page.data} />)}
     </div>
   </section>
 </BaseLayout>

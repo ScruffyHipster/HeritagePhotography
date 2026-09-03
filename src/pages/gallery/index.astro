@@ -1,15 +1,17 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ImageFrame from '../../components/ImageFrame.astro';
 import { withBase } from '../../lib/paths';
 const galleries = (await getCollection('galleries')).sort((a, b) => a.data.order - b.data.order);
+const page = await getEntry('pages', 'gallery');
+if (!page || page.data.title !== 'Gallery') throw new Error('Gallery page content is missing.');
 ---
-<BaseLayout title="Heritage photography gallery" description="Browse photographs from Doncaster, exhibitions, Heritage Open Days, tours and day trips.">
+<BaseLayout title={page.data.seo?.title} description={page.data.seo?.description} socialImage={page.data.seo?.socialImage}>
   <section class="page-hero">
-    <p class="eyebrow">Gallery index</p>
-    <h1>Doncaster, exhibitions and travels.</h1>
-    <p class="lede">Browse photographs from the Doncaster Detail Quizzes, Heritage Open Days, city streets, tours and day trips.</p>
+    <p class="eyebrow">{page.data.eyebrow}</p>
+    <h1>{page.data.heroTitle}</h1>
+    <p class="lede">{page.data.introduction}</p>
   </section>
   <section class="gallery-grid listing-section">
     {galleries.map((gallery, index) => (

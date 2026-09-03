@@ -2,11 +2,18 @@
 import { withBase } from '../lib/paths';
 
 interface Props {
-  name: string;
   monogram: string;
   navigation: Array<{ label: string; href: string }>;
+  copy: {
+    homeLabel: string;
+    brandLineOne: string;
+    brandLineTwo: string;
+    menuLabel: string;
+    navigationLabel: string;
+    primaryNavigationLabel: string;
+  };
 }
-const { name, monogram, navigation } = Astro.props;
+const { monogram, navigation, copy } = Astro.props;
 const currentPath = Astro.url.pathname;
 const isCurrent = (href: string) => {
   const resolvedHref = withBase(href);
@@ -14,16 +21,16 @@ const isCurrent = (href: string) => {
 };
 ---
 <header class="site-header" data-header>
-  <a class="brand" href={withBase('/')} aria-label={`${name} home`}>
+  <a class="brand" href={withBase('/')} aria-label={copy.homeLabel}>
     <span class="monogram" aria-hidden="true">{monogram}</span>
-    <span class="brand__name">Heritage Building<br />Photographer</span>
+    <span class="brand__name">{copy.brandLineOne}<br />{copy.brandLineTwo}</span>
   </a>
   <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-toggle>
-    <span>Menu</span>
+    <span>{copy.menuLabel}</span>
     <i aria-hidden="true"></i>
   </button>
-  <nav id="site-nav" class="site-nav" aria-label="Primary navigation" data-nav>
-    <div class="site-nav__label">Navigate</div>
+  <nav id="site-nav" class="site-nav" aria-label={copy.primaryNavigationLabel} data-nav>
+    <div class="site-nav__label">{copy.navigationLabel}</div>
     <ul>
       {navigation.map((item) => (
         <li><a href={withBase(item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a></li>
@@ -36,16 +43,29 @@ const isCurrent = (href: string) => {
   const header = document.querySelector<HTMLElement>('[data-header]');
   const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
   const nav = document.querySelector<HTMLElement>('[data-nav]');
+  let menuScrollPosition = 0;
 
   const closeMenu = () => {
+    if (!document.body.classList.contains('menu-open')) return;
+
     toggle?.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('menu-open');
+    document.body.style.removeProperty('--menu-scroll-position');
+    window.scrollTo(0, menuScrollPosition);
   };
 
   toggle?.addEventListener('click', () => {
     const open = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', String(!open));
-    document.body.classList.toggle('menu-open', !open);
+
+    if (open) {
+      closeMenu();
+      return;
+    }
+
+    menuScrollPosition = window.scrollY;
+    document.body.style.setProperty('--menu-scroll-position', `-${menuScrollPosition}px`);
+    toggle.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('menu-open');
   });
 
   nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));

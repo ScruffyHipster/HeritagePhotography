@@ -11,8 +11,9 @@
     "test:routes": "node scripts/check-routes.mjs",
     "test:enquiries": "node scripts/test-enquiries.mjs",
     "test:content": "node scripts/check-authentic-content.mjs",
+    "test:cms": "node scripts/check-cms-coverage.mjs",
     "test:html": "html-validate \"dist/**/*.html\"",
-    "test": "npm run test:routes && npm run test:enquiries && npm run test:content && npm run test:html"
+    "test": "npm run test:routes && npm run test:enquiries && npm run test:content && npm run test:cms && npm run test:html"
   },
   "dependencies": {
     "@astrojs/sitemap": "latest",

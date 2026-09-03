@@ -5,13 +5,15 @@ import ImageFrame from '../components/ImageFrame.astro';
 import InquiryForm from '../components/InquiryForm.astro';
 const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
 const site = await getEntry('site', 'site');
-if (!site) throw new Error('Site settings are missing.');
+const page = await getEntry('pages', 'shop');
+if (!site || !page || page.data.title !== 'Shop') throw new Error('Site settings or shop content are missing.');
+const pageData = page.data;
 ---
-<BaseLayout title="Prints and books" description="A4 photographic prints and a softback exhibition book from Heritage Building Photographer.">
+<BaseLayout title={page.data.seo?.title} description={page.data.seo?.description} socialImage={page.data.seo?.socialImage}>
   <section class="page-hero">
-    <p class="eyebrow">Shop</p>
-    <h1>Exhibition merchandise.</h1>
-    <p class="lede">A4 prints are available framed or unframed, along with a softback book. Please see the gallery for other photographs.</p>
+    <p class="eyebrow">{page.data.eyebrow}</p>
+    <h1>{page.data.heroTitle}</h1>
+    <p class="lede">{page.data.introduction}</p>
   </section>
   <section class="products listing-section">
     {products.map((product, index) => (
@@ -20,7 +22,7 @@ if (!site) throw new Error('Site settings are missing.');
           {product.data.previews.map((preview) => <ImageFrame {...preview} />)}
         </div>
         <div class="product__copy">
-          <p class="eyebrow">Item {String(index + 1).padStart(2, '0')}</p>
+          <p class="eyebrow">{pageData.itemPrefix} {String(index + 1).padStart(2, '0')}</p>
           <h2>{product.data.title}</h2>
           <p>{product.data.description}</p>
           <p class="price">{product.data.price}</p>
@@ -28,7 +30,7 @@ if (!site) throw new Error('Site settings are missing.');
           <p class="small">{product.data.postageNote}</p>
           <details>
             <summary class="button">{product.data.enquiryLabel}</summary>
-            <InquiryForm kind="product" product={product.data.title} email={site.data.email} buttonLabel="Compose order email" />
+            <InquiryForm kind="product" product={product.data.title} email={site.data.email} buttonLabel={pageData.orderEmailLabel} />
           </details>
         </div>
       </article>

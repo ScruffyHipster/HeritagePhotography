@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ImageFrame from '../../components/ImageFrame.astro';
 import { withBase } from '../../lib/paths';
@@ -12,24 +12,26 @@ const ordered = [...galleries].sort((a, b) => a.data.order - b.data.order);
 const index = ordered.findIndex((item) => item.id === gallery.id);
 const previous = ordered[(index - 1 + ordered.length) % ordered.length];
 const next = ordered[(index + 1) % ordered.length];
+const page = await getEntry('pages', 'gallery');
+if (!page || page.data.title !== 'Gallery') throw new Error('Gallery page content is missing.');
 ---
-<BaseLayout title={gallery.data.seo?.title ?? gallery.data.title} description={gallery.data.seo?.description ?? gallery.data.introduction}>
+<BaseLayout title={gallery.data.seo?.title ?? gallery.data.title} description={gallery.data.seo?.description ?? gallery.data.introduction} socialImage={gallery.data.seo?.socialImage}>
   <header class="detail-hero detail-hero--gallery">
     <div class="detail-hero__copy">
-      <p class="eyebrow">Gallery {String(index + 1).padStart(2, '0')}</p>
+      <p class="eyebrow">{page.data.detailPrefix} {String(index + 1).padStart(2, '0')}</p>
       <h1>{gallery.data.title}</h1>
       <p class="lede">{gallery.data.introduction}</p>
     </div>
     <ImageFrame {...gallery.data.cover} priority />
   </header>
-  <section class="masonry-sequence" aria-label={`${gallery.data.title} photographs`}>
+  <section class="masonry-sequence" aria-label={`${gallery.data.title} ${page.data.photographsLabel}`}>
     {gallery.data.photos.map((photo, photoIndex) => (
       <ImageFrame {...photo} class={`masonry-sequence__item-${photoIndex + 1} reveal`} />
     ))}
   </section>
-  <nav class="previous-next" aria-label="Gallery navigation">
-    <a href={withBase(`/gallery/${previous.id}/`)}><span>Previous</span>{previous.data.title}</a>
-    <a href={withBase('/gallery/')}><span>Index</span>All galleries</a>
-    <a href={withBase(`/gallery/${next.id}/`)}><span>Next</span>{next.data.title}</a>
+  <nav class="previous-next" aria-label={page.data.navigationLabel}>
+    <a href={withBase(`/gallery/${previous.id}/`)}><span>{page.data.previousLabel}</span>{previous.data.title}</a>
+    <a href={withBase('/gallery/')}><span>{page.data.indexLabel}</span>{page.data.allGalleriesLabel}</a>
+    <a href={withBase(`/gallery/${next.id}/`)}><span>{page.data.nextLabel}</span>{next.data.title}</a>
   </nav>
 </BaseLayout>

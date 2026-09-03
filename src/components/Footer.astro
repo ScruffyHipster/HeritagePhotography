@@ -4,20 +4,26 @@ interface Props {
   instagram: string;
   facebook: string;
   footer: string;
+  copy: {
+    eyebrow: string;
+    heading: string;
+    instagramLabel: string;
+    facebookLabel: string;
+  };
 }
-const { email, instagram, facebook, footer } = Astro.props;
+const { email, instagram, facebook, footer, copy } = Astro.props;
 ---
 <footer class="footer">
   <div class="footer__lead">
-    <p class="eyebrow">Orders · photography · enquiries</p>
-    <h2>Please contact me.</h2>
+    <p class="eyebrow">{copy.eyebrow}</p>
+    <h2>{copy.heading}</h2>
     <a class="text-link text-link--large" href={`mailto:${email}`}>{email}</a>
   </div>
   <div class="footer__base">
     <p>© {new Date().getFullYear()} {footer}</p>
     <div class="footer__links">
-      <a href={instagram} target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a>
-      <a href={facebook} target="_blank" rel="noopener noreferrer">Facebook <span aria-hidden="true">↗</span></a>
+      <a href={instagram} target="_blank" rel="noopener noreferrer">{copy.instagramLabel} <span aria-hidden="true">↗</span></a>
+      <a href={facebook} target="_blank" rel="noopener noreferrer">{copy.facebookLabel} <span aria-hidden="true">↗</span></a>
     </div>
   </div>
 </footer>

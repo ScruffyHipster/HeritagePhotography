@@ -1,0 +1,65 @@
+{
+  "skipLink": "Skip to main content",
+  "header": {
+    "homeLabel": "Heritage Building Photographer home",
+    "brandLineOne": "Heritage Building",
+    "brandLineTwo": "Photographer",
+    "menuLabel": "Menu",
+    "navigationLabel": "Navigate",
+    "primaryNavigationLabel": "Primary navigation"
+  },
+  "footer": {
+    "eyebrow": "Orders · photography · enquiries",
+    "heading": "Please contact me.",
+    "instagramLabel": "Instagram",
+    "facebookLabel": "Facebook"
+  },
+  "imagePlaceholder": {
+    "status": "Photography forthcoming",
+    "shapeLabels": {
+      "arch": "arch",
+      "circle": "circle",
+      "portrait": "portrait",
+      "landscape": "landscape",
+      "panorama": "panorama",
+      "square": "square"
+    }
+  },
+  "form": {
+    "nameLabel": "Your name",
+    "emailLabel": "Email address",
+    "itemLabel": "Photograph or item name",
+    "presentationLabel": "Presentation",
+    "presentationOptions": ["Unframed", "Framed"],
+    "frameLabel": "Frame colour",
+    "frameOptions": ["Not applicable", "Black", "White"],
+    "quantityLabel": "Quantity",
+    "topicLabel": "What are you interested in?",
+    "topicOptions": [
+      "Photograph a historic building",
+      "Print or book order",
+      "Events and exhibitions",
+      "Something else"
+    ],
+    "contactMessageLabel": "Tell me about your project",
+    "productMessageLabel": "Notes",
+    "contactSubmitLabel": "Compose email",
+    "copyButtonLabel": "Copy enquiry",
+    "helpText": "This form opens your email app. You can also email",
+    "emailReadyStatus": "Your email app should open with the enquiry ready to send.",
+    "copySuccessStatus": "Enquiry copied to your clipboard.",
+    "copyFailureStatus": "Copy was unavailable. Select the visible email address to continue.",
+    "email": {
+      "productSubjectPrefix": "Product enquiry",
+      "contactSubjectPrefix": "Website enquiry",
+      "contactSubjectFallback": "Photography",
+      "nameLabel": "Name",
+      "replyToLabel": "Reply-to",
+      "itemLabel": "Item",
+      "interestLabel": "Interest",
+      "presentationLabel": "Presentation",
+      "frameLabel": "Frame colour",
+      "quantityLabel": "Quantity"
+    }
+  }
+}

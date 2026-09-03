@@ -1,7 +1,9 @@
 media:
   input: public/media/images
   output: /media/images
+  label: Photo library
   rename: safe
+  categories: [image]
   extensions: [jpg, jpeg, png, webp, avif]
 
 settings:
@@ -12,6 +14,7 @@ settings:
       create: "content: create {name}"
       update: "content: update {name}"
       delete: "content: remove {name}"
+      rename: "content: rename {oldPath} to {newPath}"
 
 components:
   seo:
@@ -19,15 +22,15 @@ components:
     label: Search & social
     fields:
       - { name: title, label: Page title, type: string }
-      - { name: description, label: Description, type: text }
-      - { name: socialImage, label: Social image, type: image }
+      - { name: description, label: Search description, type: text }
+      - { name: socialImage, label: Social sharing image, type: image, description: "Choose an existing photo or upload a new one." }
   image_slot:
     type: object
-    label: Image
+    label: Photograph
     fields:
-      - { name: image, label: Image file, type: image }
-      - { name: alt, label: Alternative text, type: string, required: true }
-      - { name: caption, label: Caption, type: string }
+      - { name: image, label: Image file, type: image, description: "Choose an existing photo or upload a new JPG, PNG, WebP or AVIF." }
+      - { name: alt, label: Image description, type: string, required: true, description: "Describe what is visible in the photograph for visitors using a screen reader." }
+      - { name: caption, label: Caption, type: string, description: "Optional text displayed below the photograph." }
       - name: shape
         label: Frame shape
         type: select
@@ -36,10 +39,10 @@ components:
           values: [arch, circle, portrait, landscape, panorama, square]
   cta:
     type: object
-    label: Call to action
+    label: Link
     fields:
-      - { name: label, type: string, required: true }
-      - { name: href, label: Link, type: string, required: true }
+      - { name: label, label: Link text, type: string, required: true }
+      - { name: href, label: Destination, type: string, required: true }
 
 content:
   - name: site_group
@@ -53,24 +56,113 @@ content:
         format: json
         operations: { delete: false, rename: false }
         fields:
-          - { name: name, type: string, required: true }
+          - { name: name, label: Site name, type: string, required: true }
           - { name: monogram, type: string, required: true }
           - { name: strapline, type: text, required: true }
           - { name: email, type: string, required: true }
           - { name: canonicalUrl, label: Canonical URL, type: string, required: true }
-          - { name: instagram, type: string, required: true }
-          - { name: facebook, type: string, required: true }
+          - { name: instagram, label: Instagram URL, type: string, required: true }
+          - { name: facebook, label: Facebook URL, type: string, required: true }
           - name: navigation
+            label: Main navigation
             type: object
             list:
               collapsible:
                 collapsed: true
                 summary: "{label}"
             fields:
-              - { name: label, type: string, required: true }
-              - { name: href, type: string, required: true }
-          - { name: footer, type: text, required: true }
+              - { name: label, label: Link text, type: string, required: true }
+              - { name: href, label: Destination, type: string, required: true }
+          - { name: footer, label: Copyright wording, type: text, required: true }
           - { name: seo, component: seo }
+      - name: shared_wording
+        label: Shared wording
+        type: file
+        path: src/content/shared.json
+        format: json
+        operations: { delete: false, rename: false }
+        fields:
+          - { name: skipLink, label: Skip link, type: string, required: true }
+          - name: header
+            label: Header
+            type: object
+            required: true
+            fields:
+              - { name: homeLabel, label: Home-link description, type: string, required: true }
+              - { name: brandLineOne, label: Brand first line, type: string, required: true }
+              - { name: brandLineTwo, label: Brand second line, type: string, required: true }
+              - { name: menuLabel, label: Menu button, type: string, required: true }
+              - { name: navigationLabel, label: Navigation heading, type: string, required: true }
+              - { name: primaryNavigationLabel, label: Navigation screen-reader description, type: string, required: true }
+          - name: footer
+            label: Footer
+            type: object
+            required: true
+            fields:
+              - { name: eyebrow, label: Small heading, type: string, required: true }
+              - { name: heading, label: Main heading, type: string, required: true }
+              - { name: instagramLabel, label: Instagram link, type: string, required: true }
+              - { name: facebookLabel, label: Facebook link, type: string, required: true }
+          - name: imagePlaceholder
+            label: Empty image placeholders
+            type: object
+            required: true
+            fields:
+              - { name: status, label: Status message, type: string, required: true }
+              - name: shapeLabels
+                label: Shape names
+                type: object
+                required: true
+                fields:
+                  - { name: arch, type: string, required: true }
+                  - { name: circle, type: string, required: true }
+                  - { name: portrait, type: string, required: true }
+                  - { name: landscape, type: string, required: true }
+                  - { name: panorama, type: string, required: true }
+                  - { name: square, type: string, required: true }
+          - name: form
+            label: Enquiry forms
+            type: object
+            required: true
+            fields:
+              - { name: nameLabel, label: Name field, type: string, required: true }
+              - { name: emailLabel, label: Email field, type: string, required: true }
+              - { name: itemLabel, label: Item field, type: string, required: true }
+              - { name: presentationLabel, label: Presentation field, type: string, required: true }
+              - { name: presentationOptions, label: Presentation choices, type: string, list: true, required: true }
+              - { name: frameLabel, label: Frame field, type: string, required: true }
+              - { name: frameOptions, label: Frame choices, type: string, list: true, required: true }
+              - { name: quantityLabel, label: Quantity field, type: string, required: true }
+              - { name: topicLabel, label: Interest field, type: string, required: true }
+              - { name: topicOptions, label: Interest choices, type: string, list: true, required: true }
+              - { name: contactMessageLabel, label: Contact message field, type: string, required: true }
+              - { name: productMessageLabel, label: Product notes field, type: string, required: true }
+              - { name: contactSubmitLabel, label: Default submit button, type: string, required: true }
+              - { name: copyButtonLabel, label: Copy button, type: string, required: true }
+              - { name: helpText, label: Help message before email address, type: text, required: true }
+              - { name: emailReadyStatus, label: Email opened message, type: text, required: true }
+              - { name: copySuccessStatus, label: Copy success message, type: text, required: true }
+              - { name: copyFailureStatus, label: Copy failure message, type: text, required: true }
+              - name: email
+                label: Generated email wording
+                type: object
+                required: true
+                fields:
+                  - { name: productSubjectPrefix, label: Product subject prefix, type: string, required: true }
+                  - { name: contactSubjectPrefix, label: Contact subject prefix, type: string, required: true }
+                  - { name: contactSubjectFallback, label: Contact subject fallback, type: string, required: true }
+                  - { name: nameLabel, label: Name line, type: string, required: true }
+                  - { name: replyToLabel, label: Reply-to line, type: string, required: true }
+                  - { name: itemLabel, label: Item line, type: string, required: true }
+                  - { name: interestLabel, label: Interest line, type: string, required: true }
+                  - { name: presentationLabel, label: Presentation line, type: string, required: true }
+                  - { name: frameLabel, label: Frame line, type: string, required: true }
+                  - { name: quantityLabel, label: Quantity line, type: string, required: true }
+
+  - name: pages_group
+    label: Main pages
+    type: group
+    items:
       - name: homepage
         label: Homepage
         type: file
@@ -78,14 +170,15 @@ content:
         operations: { delete: false, rename: false }
         fields:
           - { name: title, type: string, readonly: true }
-          - { name: eyebrow, type: string }
-          - { name: heroTitle, label: Hero title, type: string, required: true }
-          - { name: introduction, type: text, required: true }
-          - { name: primaryCta, label: Primary action, component: cta }
-          - { name: secondaryCta, label: Secondary action, component: cta }
+          - { name: eyebrow, label: Small heading, type: string, required: true }
+          - { name: heroTitle, label: Main heading, type: string, required: true }
+          - { name: introduction, label: Introduction, type: text, required: true }
+          - { name: primaryCta, label: Primary link, component: cta, required: true }
+          - { name: secondaryCta, label: Secondary link, component: cta, required: true }
           - name: featuredProjects
             label: Featured projects
             type: reference
+            required: true
             options:
               collection: projects
               multiple: true
@@ -96,30 +189,146 @@ content:
           - name: featuredGallery
             label: Featured gallery
             type: reference
+            required: true
             options: { collection: galleries, value: "{name}", label: "{primary}" }
           - name: featuredEvent
             label: Featured event
             type: reference
+            required: true
             options: { collection: events, value: "{name}", label: "{primary}" }
-          - { name: hero, component: image_slot }
-          - { name: introductionImage, label: Introduction image, component: image_slot, required: true }
-          - { name: lensImage, label: Different lens image, component: image_slot, required: true }
-          - { name: body, type: rich-text }
+          - { name: hero, label: Hero photograph, component: image_slot }
+          - { name: scrollCue, label: Scroll prompt, type: string, required: true }
+          - { name: introductionLabel, label: Introduction section label, type: string, required: true }
+          - { name: introductionHeading, label: Introduction heading, type: string, required: true }
+          - { name: introductionText, label: Introduction text, type: text, required: true }
+          - { name: introductionLink, label: Introduction link, component: cta, required: true }
+          - { name: introductionImage, label: Introduction photograph, component: image_slot, required: true }
+          - { name: lensKicker, label: Lens first line, type: string, required: true }
+          - { name: lensHeading, label: Lens heading, type: string, required: true }
+          - { name: lensNote, label: Lens note, type: string, required: true }
+          - { name: lensImage, label: Lens photograph, component: image_slot, required: true }
+          - { name: projectsEyebrow, label: Projects small heading, type: string, required: true }
+          - { name: projectsHeading, label: Projects heading, type: string, required: true }
+          - { name: projectsLink, label: Projects link, component: cta, required: true }
+          - { name: eventLabel, label: Event section label, type: string, required: true }
+          - { name: eventEyebrow, label: Event small heading, type: string, required: true }
+          - { name: eventWhenLabel, label: Event date label, type: string, required: true }
+          - { name: eventWhereLabel, label: Event venue label, type: string, required: true }
+          - { name: eventLink, label: Event link, component: cta, required: true }
+          - { name: galleryEyebrow, label: Gallery small heading, type: string, required: true }
+          - { name: galleryHeading, label: Gallery heading, type: string, required: true }
+          - { name: galleryLink, label: Gallery link, component: cta, required: true }
           - { name: seo, component: seo }
       - name: about
-        label: About page
+        label: About
         type: file
         path: src/content/pages/about.md
         operations: { delete: false, rename: false }
         fields:
           - { name: title, type: string, readonly: true }
-          - { name: eyebrow, type: string }
-          - { name: heroTitle, label: Hero title, type: string, required: true }
+          - { name: eyebrow, label: Small heading, type: string, required: true }
+          - { name: heroTitle, label: Main heading, type: string, required: true }
           - { name: introduction, type: text, required: true }
-          - { name: primaryCta, label: Primary action, component: cta }
-          - { name: secondaryCta, label: Secondary action, component: cta }
-          - { name: hero, component: image_slot }
-          - { name: body, type: rich-text }
+          - { name: hero, label: Hero photograph, component: image_slot }
+          - { name: bodyLabel, label: Story section label, type: string, required: true }
+          - { name: body, label: Story, type: rich-text, required: true }
+          - { name: seo, component: seo }
+      - name: contact_page
+        label: Contact
+        type: file
+        path: src/content/pages/contact.md
+        operations: { delete: false, rename: false }
+        fields:
+          - { name: title, type: string, readonly: true }
+          - { name: eyebrow, label: Small heading, type: string, required: true }
+          - { name: heroTitle, label: Main heading, type: string, required: true }
+          - { name: introduction, type: text, required: true }
+          - { name: directEmailLabel, label: Direct email label, type: string, required: true }
+          - { name: formSubmitLabel, label: Form submit button, type: string, required: true }
+          - { name: seo, component: seo }
+      - name: projects_page
+        label: Projects page
+        type: file
+        path: src/content/pages/projects.md
+        operations: { delete: false, rename: false }
+        fields:
+          - { name: title, type: string, readonly: true }
+          - { name: eyebrow, label: Small heading, type: string, required: true }
+          - { name: heroTitle, label: Main heading, type: string, required: true }
+          - { name: introduction, type: text, required: true }
+          - { name: cardLinkLabel, label: Project-card link, type: string, required: true }
+          - { name: cardAriaPrefix, label: Project-card screen-reader prefix, type: string, required: true }
+          - { name: detailPrefix, label: Detail-page prefix, type: string, required: true }
+          - { name: storyLabel, label: Story section label, type: string, required: true }
+          - { name: photographsLabel, label: Photograph collection description, type: string, required: true }
+          - { name: navigationLabel, label: Detail navigation description, type: string, required: true }
+          - { name: previousLabel, label: Previous link, type: string, required: true }
+          - { name: indexLabel, label: Index link prefix, type: string, required: true }
+          - { name: allProjectsLabel, label: Index link text, type: string, required: true }
+          - { name: nextLabel, label: Next link, type: string, required: true }
+          - { name: seo, component: seo }
+      - name: gallery_page
+        label: Gallery page
+        type: file
+        path: src/content/pages/gallery.md
+        operations: { delete: false, rename: false }
+        fields:
+          - { name: title, type: string, readonly: true }
+          - { name: eyebrow, label: Small heading, type: string, required: true }
+          - { name: heroTitle, label: Main heading, type: string, required: true }
+          - { name: introduction, type: text, required: true }
+          - { name: detailPrefix, label: Detail-page prefix, type: string, required: true }
+          - { name: photographsLabel, label: Photograph collection description, type: string, required: true }
+          - { name: navigationLabel, label: Detail navigation description, type: string, required: true }
+          - { name: previousLabel, label: Previous link, type: string, required: true }
+          - { name: indexLabel, label: Index link prefix, type: string, required: true }
+          - { name: allGalleriesLabel, label: Index link text, type: string, required: true }
+          - { name: nextLabel, label: Next link, type: string, required: true }
+          - { name: seo, component: seo }
+      - name: events_page
+        label: Events page
+        type: file
+        path: src/content/pages/events.md
+        operations: { delete: false, rename: false }
+        fields:
+          - { name: title, type: string, readonly: true }
+          - { name: eyebrow, label: Small heading, type: string, required: true }
+          - { name: heroTitle, label: Main heading, type: string, required: true }
+          - { name: introduction, type: text, required: true }
+          - { name: upcomingEyebrow, label: Upcoming small heading, type: string, required: true }
+          - { name: upcomingHeading, label: Upcoming heading, type: string, required: true }
+          - { name: venueLabel, label: Venue label, type: string, required: true }
+          - { name: bookingLabel, label: Booking link, type: string, required: true }
+          - { name: interestLabel, label: Register-interest link, type: string, required: true }
+          - { name: emptyMessage, label: No upcoming events message, type: text, required: true }
+          - { name: archiveEyebrow, label: Archive small heading, type: string, required: true }
+          - { name: archiveHeading, label: Archive heading, type: string, required: true }
+          - { name: seo, component: seo }
+      - name: shop_page
+        label: Shop page
+        type: file
+        path: src/content/pages/shop.md
+        operations: { delete: false, rename: false }
+        fields:
+          - { name: title, type: string, readonly: true }
+          - { name: eyebrow, label: Small heading, type: string, required: true }
+          - { name: heroTitle, label: Main heading, type: string, required: true }
+          - { name: introduction, type: text, required: true }
+          - { name: itemPrefix, label: Item-number prefix, type: string, required: true }
+          - { name: orderEmailLabel, label: Order email button, type: string, required: true }
+          - { name: seo, component: seo }
+      - name: not_found_page
+        label: Page not found
+        type: file
+        path: src/content/pages/not-found.md
+        operations: { delete: false, rename: false }
+        fields:
+          - { name: title, type: string, readonly: true }
+          - { name: eyebrow, label: Small heading, type: string, required: true }
+          - { name: heroTitle, label: Main heading, type: string, required: true }
+          - { name: introduction, type: text, required: true }
+          - { name: primaryCta, label: Primary link, component: cta, required: true }
+          - { name: secondaryCta, label: Secondary link, component: cta, required: true }
           - { name: seo, component: seo }
 
   - name: work_group
@@ -141,9 +350,9 @@ content:
           - { name: summary, type: text, required: true }
           - { name: featured, type: boolean, default: false }
           - { name: order, type: number, required: true }
-          - { name: hero, component: image_slot, required: true }
+          - { name: hero, label: Hero photograph, component: image_slot, required: true }
           - name: gallery
-            label: Project images
+            label: Project photographs
             component: image_slot
             list:
               collapsible:
@@ -153,7 +362,7 @@ content:
             label: Related gallery
             type: reference
             options: { collection: galleries, value: "{name}", label: "{primary}" }
-          - { name: body, type: rich-text }
+          - { name: body, label: Project story, type: rich-text }
           - { name: seo, component: seo }
       - name: galleries
         label: Galleries
@@ -169,8 +378,9 @@ content:
           - { name: title, type: string, required: true }
           - { name: introduction, type: text, required: true }
           - { name: order, type: number, required: true }
-          - { name: cover, component: image_slot, required: true }
+          - { name: cover, label: Cover photograph, component: image_slot, required: true }
           - name: photos
+            label: Gallery photographs
             component: image_slot
             list:
               collapsible:
@@ -183,7 +393,7 @@ content:
     type: group
     items:
       - name: events
-        label: Events
+        label: Event entries
         type: collection
         path: src/content/events
         filename: { template: "{primary}.md", field: create }
@@ -198,7 +408,7 @@ content:
           - { name: startDate, label: Start date, type: date }
           - { name: endDate, label: End date, type: date }
           - { name: dateLabel, label: Fallback date label, type: string, description: "Use for Dates TBC or another non-specific date." }
-          - { name: image, component: image_slot, required: true }
+          - { name: image, label: Event photograph, component: image_slot, required: true }
           - { name: bookingLink, label: Booking link, type: string }
           - { name: published, type: boolean, default: true }
           - { name: seo, component: seo }
@@ -224,11 +434,12 @@ content:
           - { name: postageNote, label: Postage note, type: text, required: true }
           - { name: options, type: string, list: true }
           - name: previews
+            label: Product photographs
             component: image_slot
             list:
               collapsible:
                 collapsed: true
                 summary: "{alt}"
-          - { name: enquiryLabel, label: Enquiry button label, type: string, required: true }
+          - { name: enquiryLabel, label: Enquiry button, type: string, required: true }
           - { name: order, type: number, required: true }
           - { name: seo, component: seo }

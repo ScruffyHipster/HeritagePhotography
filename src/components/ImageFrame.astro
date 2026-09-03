@@ -1,5 +1,6 @@
 ---
 import { withBase } from '../lib/paths';
+import { getEntry } from 'astro:content';
 
 interface Props {
   image?: string;
@@ -20,6 +21,9 @@ const {
   priority = false,
   parallax = false,
 } = Astro.props;
+const shared = await getEntry('shared', 'shared');
+if (!shared) throw new Error('Shared wording is missing.');
+const placeholder = shared.data.imagePlaceholder;
 ---
 <figure class:list={['image-frame', `image-frame--${shape}`, className]} data-parallax={parallax ? '' : undefined}>
   <div class="image-frame__media">
@@ -33,8 +37,8 @@ const {
       />
     ) : (
       <div class="image-frame__placeholder" role="img" aria-label={alt}>
-        <span>{shape}</span>
-        <small>Photography forthcoming</small>
+        <span>{placeholder.shapeLabels[shape]}</span>
+        <small>{placeholder.status}</small>
       </div>
     )}
   </div>

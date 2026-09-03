@@ -3,19 +3,20 @@ import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import InquiryForm from '../components/InquiryForm.astro';
 const site = await getEntry('site', 'site');
-if (!site) throw new Error('Site settings are missing.');
+const contact = await getEntry('pages', 'contact');
+if (!site || !contact || contact.data.title !== 'Contact') throw new Error('Site settings or contact content are missing.');
 ---
-<BaseLayout title="Contact Heritage Building Photographer" description="Order a print or book, or ask about photographing a specific historic building in Doncaster.">
+<BaseLayout title={contact.data.seo?.title} description={contact.data.seo?.description} socialImage={contact.data.seo?.socialImage}>
   <section class="contact-hero">
     <div>
-      <p class="eyebrow">Contact</p>
-      <h1>Please contact me.</h1>
-      <p class="lede">For orders, or to ask about photographing a specific historic building in Doncaster, please use the form or email address below.</p>
+      <p class="eyebrow">{contact.data.eyebrow}</p>
+      <h1>{contact.data.heroTitle}</h1>
+      <p class="lede">{contact.data.introduction}</p>
       <div class="contact-direct">
-        <span>Email directly</span>
+        <span>{contact.data.directEmailLabel}</span>
         <a href={`mailto:${site.data.email}`}>{site.data.email}</a>
       </div>
     </div>
-    <InquiryForm email={site.data.email} />
+    <InquiryForm email={site.data.email} buttonLabel={contact.data.formSubmitLabel} />
   </section>
 </BaseLayout>

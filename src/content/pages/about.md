@@ -3,16 +3,11 @@ title: About
 eyebrow: Behind the camera
 heroTitle: Photographer and heritage enthusiast, always looking for a new perspective.
 introduction: Following retirement, I was able to combine my passion for photography and heritage.
-primaryCta:
-  label: Start a conversation
-  href: /contact/
-secondaryCta:
-  label: Browse projects
-  href: /projects/
 hero:
   alt: Photograph from the Heritage Building Photographer collection
   caption: Historic buildings through a different lens.
   shape: portrait
+bodyLabel: My work
 seo:
   title: About the photographer
   description: About a photographer and heritage enthusiast documenting historic buildings in Doncaster, other towns and cities, and abroad.

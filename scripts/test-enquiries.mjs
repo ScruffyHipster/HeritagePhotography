@@ -1,12 +1,16 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { buildEnquiry, createMailto } from '../src/lib/enquiry.mjs';
+
+const shared = JSON.parse(await readFile(new URL('../src/content/shared.json', import.meta.url), 'utf8'));
+const copy = shared.form.email;
 
 const contact = buildEnquiry({
   name: 'Ava O’Brien',
   replyTo: 'ava+heritage@example.com',
   topic: 'Photography commission',
   message: 'St Mary’s & the old mill — autumn 2026?',
-});
+}, { copy });
 assert.equal(contact.subject, 'Website enquiry: Photography commission');
 assert.match(contact.body, /Ava O’Brien/);
 assert.match(contact.body, /St Mary’s & the old mill — autumn 2026\?/);
@@ -19,7 +23,7 @@ const order = buildEnquiry({
   frame: 'White',
   quantity: '2',
   message: 'Please quote for delivery to London.',
-}, { kind: 'product', product: 'A4 Print — Doncaster Details Quiz' });
+}, { kind: 'product', product: 'A4 Print — Doncaster Details Quiz', copy });
 assert.equal(order.subject, 'Product enquiry: A4 Print — Doncaster Details Quiz');
 assert.match(order.body, /Frame colour: White/);
 assert.match(order.body, /Quantity: 2/);

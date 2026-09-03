@@ -1,5 +1,5 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ImageFrame from '../../components/ImageFrame.astro';
 import { withBase } from '../../lib/paths';
@@ -14,30 +14,32 @@ const index = ordered.findIndex((item) => item.id === project.id);
 const previous = ordered[(index - 1 + ordered.length) % ordered.length];
 const next = ordered[(index + 1) % ordered.length];
 const { Content } = await render(project);
+const page = await getEntry('pages', 'projects');
+if (!page || page.data.title !== 'Projects') throw new Error('Projects page content is missing.');
 ---
-<BaseLayout title={project.data.seo?.title ?? project.data.title} description={project.data.seo?.description ?? project.data.summary}>
+<BaseLayout title={project.data.seo?.title ?? project.data.title} description={project.data.seo?.description ?? project.data.summary} socialImage={project.data.seo?.socialImage}>
   <article>
     <header class="detail-hero">
       <div class="detail-hero__copy">
-        <p class="eyebrow">Project {String(index + 1).padStart(2, '0')}</p>
+        <p class="eyebrow">{page.data.detailPrefix} {String(index + 1).padStart(2, '0')}</p>
         <h1>{project.data.title}</h1>
         <p class="lede">{project.data.summary}</p>
       </div>
       <ImageFrame {...project.data.hero} priority parallax />
     </header>
     <div class="prose-layout">
-      <aside><p class="section-number">The story</p></aside>
+      <aside><p class="section-number">{page.data.storyLabel}</p></aside>
       <div class="prose"><Content /></div>
     </div>
-    <section class="photo-sequence" aria-label={`${project.data.title} photographs`}>
+    <section class="photo-sequence" aria-label={`${project.data.title} ${page.data.photographsLabel}`}>
       {project.data.gallery.map((photo, photoIndex) => (
         <ImageFrame {...photo} class={photoIndex % 2 === 1 ? 'photo-sequence__offset' : ''} />
       ))}
     </section>
   </article>
-  <nav class="previous-next" aria-label="Project navigation">
-    <a href={withBase(`/projects/${previous.id}/`)}><span>Previous</span>{previous.data.title}</a>
-    <a href={withBase('/projects/')}><span>Index</span>All projects</a>
-    <a href={withBase(`/projects/${next.id}/`)}><span>Next</span>{next.data.title}</a>
+  <nav class="previous-next" aria-label={page.data.navigationLabel}>
+    <a href={withBase(`/projects/${previous.id}/`)}><span>{page.data.previousLabel}</span>{previous.data.title}</a>
+    <a href={withBase('/projects/')}><span>{page.data.indexLabel}</span>{page.data.allProjectsLabel}</a>
+    <a href={withBase(`/projects/${next.id}/`)}><span>{page.data.nextLabel}</span>{next.data.title}</a>
   </nav>
 </BaseLayout>

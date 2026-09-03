@@ -15,9 +15,13 @@ interface Props {
   description?: string;
   socialImage?: string;
 }
-const siteEntry = await getEntry('site', 'site');
-if (!siteEntry) throw new Error('Site settings are missing.');
+const [siteEntry, sharedEntry] = await Promise.all([
+  getEntry('site', 'site'),
+  getEntry('shared', 'shared'),
+]);
+if (!siteEntry || !sharedEntry) throw new Error('Site settings or shared wording are missing.');
 const site = siteEntry.data;
+const shared = sharedEntry.data;
 const {
   title = site.seo?.title ?? site.name,
   description = site.seo?.description ?? site.strapline,
@@ -47,12 +51,12 @@ const imageUrl = socialImage ? new URL(withBase(socialImage), deploymentSite) : 
     <title>{title}</title>
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to main content</a>
-    <Header name={site.name} monogram={site.monogram} navigation={site.navigation} />
+    <a class="skip-link" href="#main">{shared.skipLink}</a>
+    <Header monogram={site.monogram} navigation={site.navigation} copy={shared.header} />
     <main id="main">
       <slot />
     </main>
-    <Footer email={site.email} instagram={site.instagram} facebook={site.facebook} footer={site.footer} />
+    <Footer email={site.email} instagram={site.instagram} facebook={site.facebook} footer={site.footer} copy={shared.footer} />
     <script>
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
