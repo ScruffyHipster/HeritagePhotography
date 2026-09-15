@@ -794,7 +794,8 @@ details[open] summary { margin-bottom: 2rem; }
   .page-hero--split, .detail-hero, .detail-hero--gallery, .contact-hero { grid-template-columns: 1fr; }
   .page-hero--split .image-frame { width: min(80vw, 34rem); }
   .detail-hero { padding-top: calc(var(--header-height) + 7rem); }
-  .detail-hero > .image-frame .image-frame__media { min-height: 50vh; }
+  .detail-hero > .image-frame { min-width: 0; }
+  .detail-hero > .image-frame .image-frame__media { width: 100%; min-height: 50vh; }
   .principles__grid { grid-template-columns: 1fr; }
   .principles__grid article { border-right: 0; border-bottom: 1px solid var(--line); }
   .event-row { grid-template-columns: 2rem 0.75fr 1fr; }
