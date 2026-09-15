@@ -1,8 +1,28 @@
 ---
 import { getCollection, getEntry, render } from 'astro:content';
+import { relative, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import sharp from 'sharp';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import GalleryPhotoGrid from '../../components/GalleryPhotoGrid.astro';
 import ImageFrame from '../../components/ImageFrame.astro';
 import { withBase } from '../../lib/paths';
+
+const publicDirectory = fileURLToPath(new URL('../../../public/', import.meta.url));
+
+async function getImageDimensions(image: string) {
+  const imagePath = resolve(publicDirectory, image.replace(/^\//, ''));
+  const imageRelativePath = relative(publicDirectory, imagePath);
+
+  if (imageRelativePath.startsWith('..') || imageRelativePath === '') {
+    throw new Error(`Project image must be inside public/: ${image}`);
+  }
+
+  const { width, height } = await sharp(imagePath).metadata();
+  if (!width || !height) throw new Error(`Could not read dimensions for project image: ${image}`);
+
+  return { width, height };
+}
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -14,8 +34,16 @@ const index = ordered.findIndex((item) => item.id === project.id);
 const previous = ordered[(index - 1 + ordered.length) % ordered.length];
 const next = ordered[(index + 1) % ordered.length];
 const { Content } = await render(project);
-const page = await getEntry('pages', 'projects');
+const [page, shared] = await Promise.all([
+  getEntry('pages', 'projects'),
+  getEntry('shared', 'shared'),
+]);
 if (!page || page.data.title !== 'Projects') throw new Error('Projects page content is missing.');
+if (!shared) throw new Error('Shared wording is missing.');
+const photos = await Promise.all(project.data.gallery.map(async (photo) => ({
+  ...photo,
+  ...(photo.image ? await getImageDimensions(photo.image) : {}),
+})));
 ---
 <BaseLayout title={project.data.seo?.title ?? project.data.title} description={project.data.seo?.description ?? project.data.summary} socialImage={project.data.seo?.socialImage}>
   <article>
@@ -31,11 +59,12 @@ if (!page || page.data.title !== 'Projects') throw new Error('Projects page cont
       <aside><p class="section-number">{page.data.storyLabel}</p></aside>
       <div class="prose"><Content /></div>
     </div>
-    <section class="photo-sequence" aria-label={`${project.data.title} ${page.data.photographsLabel}`}>
-      {project.data.gallery.map((photo, photoIndex) => (
-        <ImageFrame {...photo} class={photoIndex % 2 === 1 ? 'photo-sequence__offset' : ''} />
-      ))}
-    </section>
+    <GalleryPhotoGrid
+      id={`project-${project.id}`}
+      label={`${project.data.title} ${page.data.photographsLabel}`}
+      photos={photos}
+      emptyLabel={shared.data.imagePlaceholder.status}
+    />
   </article>
   <nav class="previous-next" aria-label={page.data.navigationLabel}>
     <a href={withBase(`/projects/${previous.id}/`)}><span>{page.data.previousLabel}</span>{previous.data.title}</a>
