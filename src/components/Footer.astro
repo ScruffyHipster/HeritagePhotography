@@ -21,6 +21,7 @@ const { email, instagram, facebook, footer, copy } = Astro.props;
   </div>
   <div class="footer__base">
     <p>© {new Date().getFullYear()} {footer}</p>
+    <a class="footer__credit" href="https://www.scruffyhipster.com" target="_blank" rel="noopener noreferrer">Website crafted by Scruffy Hipster LTD <span aria-hidden="true">↗</span></a>
     <div class="footer__links">
       <a href={instagram} target="_blank" rel="noopener noreferrer">{copy.instagramLabel} <span aria-hidden="true">↗</span></a>
       <a href={facebook} target="_blank" rel="noopener noreferrer">{copy.facebookLabel} <span aria-hidden="true">↗</span></a>

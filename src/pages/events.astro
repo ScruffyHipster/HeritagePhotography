@@ -4,15 +4,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ImageFrame from '../components/ImageFrame.astro';
 import { withBase } from '../lib/paths';
 import { formatEventDate } from '../lib/dates';
-const now = new Date();
-now.setHours(0, 0, 0, 0);
-const events = (await getCollection('events')).filter((event) => event.data.published);
-const upcoming = events
-  .filter((event) => !event.data.startDate || event.data.startDate >= now)
-  .sort((a, b) => (a.data.startDate?.getTime() ?? Infinity) - (b.data.startDate?.getTime() ?? Infinity));
-const past = events
-  .filter((event) => event.data.startDate && event.data.startDate < now)
-  .sort((a, b) => (b.data.startDate?.getTime() ?? 0) - (a.data.startDate?.getTime() ?? 0));
+import { getEventListings } from '../lib/events';
+const { upcoming, past } = getEventListings(await getCollection('events'));
 const page = await getEntry('pages', 'events');
 if (!page || page.data.title !== 'Events') throw new Error('Events page content is missing.');
 const pageData = page.data;
@@ -24,7 +17,7 @@ const pageData = page.data;
     <p class="lede">{page.data.introduction}</p>
   </section>
   <section class="listing-section event-list">
-    <div class="section-heading"><p class="eyebrow">{page.data.upcomingEyebrow}</p><h2>{page.data.upcomingHeading}</h2></div>
+    <div class="section-heading"><h2>{page.data.upcomingHeading}</h2></div>
     {upcoming.length ? upcoming.map((event, index) => (
       <article class="event-row reveal">
         <span class="index">{String(index + 1).padStart(2, '0')}</span>
@@ -43,7 +36,7 @@ const pageData = page.data;
   </section>
   {past.length > 0 && (
     <section class="archive listing-section">
-      <div class="section-heading"><p class="eyebrow">{page.data.archiveEyebrow}</p><h2>{page.data.archiveHeading}</h2></div>
+      <div class="section-heading"><h2>{page.data.archiveHeading}</h2></div>
       {past.map((event) => (
         <article><div><p>{formatEventDate(event.data)} · {event.data.venue}</p><h3>{event.data.title}</h3></div><p>{event.data.description}</p></article>
       ))}

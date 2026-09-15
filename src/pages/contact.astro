@@ -5,6 +5,7 @@ import InquiryForm from '../components/InquiryForm.astro';
 const site = await getEntry('site', 'site');
 const contact = await getEntry('pages', 'contact');
 if (!site || !contact || contact.data.title !== 'Contact') throw new Error('Site settings or contact content are missing.');
+const initialTopic = Astro.url.searchParams.get('subject')?.trim() ?? '';
 ---
 <BaseLayout title={contact.data.seo?.title} description={contact.data.seo?.description} socialImage={contact.data.seo?.socialImage}>
   <section class="contact-hero">
@@ -17,6 +18,6 @@ if (!site || !contact || contact.data.title !== 'Contact') throw new Error('Site
         <a href={`mailto:${site.data.email}`}>{site.data.email}</a>
       </div>
     </div>
-    <InquiryForm email={site.data.email} buttonLabel={contact.data.formSubmitLabel} />
+    <InquiryForm email={site.data.email} buttonLabel={contact.data.formSubmitLabel} initialTopic={initialTopic} />
   </section>
 </BaseLayout>

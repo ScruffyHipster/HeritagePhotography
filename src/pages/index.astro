@@ -5,6 +5,7 @@ import ImageFrame from '../components/ImageFrame.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { withBase } from '../lib/paths';
 import { formatEventDate } from '../lib/dates';
+import { getCurrentOrLatestEvent } from '../lib/events';
 
 const home = await getEntry('pages', 'home');
 if (!home) throw new Error('Homepage content is missing.');
@@ -19,7 +20,7 @@ const projects = (await getCollection('projects'))
 const galleries = await getCollection('galleries');
 const featuredGallery = galleries.find((gallery) => gallery.id === homeData.featuredGallery);
 const events = await getCollection('events');
-const featuredEvent = events.find((event) => event.id === homeData.featuredEvent);
+const featuredEvent = getCurrentOrLatestEvent(events);
 ---
 <BaseLayout title={home.data.seo?.title} description={home.data.seo?.description} socialImage={home.data.seo?.socialImage}>
   <section class="home-hero">
@@ -38,10 +39,12 @@ const featuredEvent = events.find((event) => event.id === homeData.featuredEvent
 
   <section class="intro-section section-grid reveal">
     <p class="section-number">{home.data.introductionLabel}</p>
-    <div class="intro-section__copy">
+    <div class="intro-section__content">
       <h2>{home.data.introductionHeading}</h2>
-      <p>{home.data.introductionText}</p>
-      <a class="text-link" href={withBase(home.data.introductionLink.href)}>{home.data.introductionLink.label}</a>
+      <div class="intro-section__copy">
+        <p>{home.data.introductionText}</p>
+        <a class="text-link" href={withBase(home.data.introductionLink.href)}>{home.data.introductionLink.label}</a>
+      </div>
     </div>
     <ImageFrame {...home.data.introductionImage} />
   </section>
@@ -89,9 +92,7 @@ const featuredEvent = events.find((event) => event.id === homeData.featuredEvent
     <section class="gallery-invite reveal">
       <ImageFrame {...featuredGallery.data.cover} shape="panorama" parallax />
       <div class="gallery-invite__copy">
-        <p class="eyebrow">{home.data.galleryEyebrow}</p>
         <h2>{home.data.galleryHeading}</h2>
-        <p>{featuredGallery.data.introduction}</p>
         <a class="button button--light" href={withBase(home.data.galleryLink.href)}>{home.data.galleryLink.label}</a>
       </div>
     </section>

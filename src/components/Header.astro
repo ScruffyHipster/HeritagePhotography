@@ -2,7 +2,7 @@
 import { withBase } from '../lib/paths';
 
 interface Props {
-  monogram: string;
+  logo: string;
   navigation: Array<{ label: string; href: string }>;
   copy: {
     homeLabel: string;
@@ -13,7 +13,7 @@ interface Props {
     primaryNavigationLabel: string;
   };
 }
-const { monogram, navigation, copy } = Astro.props;
+const { logo, navigation, copy } = Astro.props;
 const currentPath = Astro.url.pathname;
 const isCurrent = (href: string) => {
   const resolvedHref = withBase(href);
@@ -22,7 +22,7 @@ const isCurrent = (href: string) => {
 ---
 <header class="site-header" data-header>
   <a class="brand" href={withBase('/')} aria-label={copy.homeLabel}>
-    <span class="monogram" aria-hidden="true">{monogram}</span>
+    <img class="brand__logo" src={withBase(logo)} alt="" width="1000" height="1000" aria-hidden="true" />
     <span class="brand__name">{copy.brandLineOne}<br />{copy.brandLineTwo}</span>
   </a>
   <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-toggle>

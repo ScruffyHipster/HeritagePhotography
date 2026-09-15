@@ -4,14 +4,18 @@ import { getEntry } from 'astro:content';
 interface Props {
   kind?: 'contact' | 'product';
   product?: string;
+  initialTopic?: string;
   buttonLabel?: string;
   email: string;
 }
-const { kind = 'contact', product = '', email } = Astro.props;
+const { kind = 'contact', product = '', initialTopic = '', email } = Astro.props;
 const shared = await getEntry('shared', 'shared');
 if (!shared) throw new Error('Shared wording is missing.');
 const copy = shared.data.form;
 const buttonLabel = Astro.props.buttonLabel ?? copy.contactSubmitLabel;
+const topicOptions = initialTopic && !copy.topicOptions.includes(initialTopic)
+  ? [initialTopic, ...copy.topicOptions]
+  : copy.topicOptions;
 ---
 <form
   class="inquiry-form"
@@ -19,6 +23,7 @@ const buttonLabel = Astro.props.buttonLabel ?? copy.contactSubmitLabel;
   data-kind={kind}
   data-email={email}
   data-product={product}
+  data-initial-topic={initialTopic}
   data-email-ready-status={copy.emailReadyStatus}
   data-copy-success-status={copy.copySuccessStatus}
   data-copy-failure-status={copy.copyFailureStatus}
@@ -59,7 +64,7 @@ const buttonLabel = Astro.props.buttonLabel ?? copy.contactSubmitLabel;
     <label>
       <span>{copy.topicLabel}</span>
       <select name="topic">
-        {copy.topicOptions.map((option) => <option>{option}</option>)}
+        {topicOptions.map((option) => <option selected={option === initialTopic}>{option}</option>)}
       </select>
     </label>
   )}
@@ -81,6 +86,18 @@ const buttonLabel = Astro.props.buttonLabel ?? copy.contactSubmitLabel;
 
   document.querySelectorAll<HTMLFormElement>('[data-inquiry-form]').forEach((form) => {
     const status = form.querySelector<HTMLElement>('[data-status]');
+    const requestedTopic = new URLSearchParams(window.location.search).get('subject')?.trim()
+      || form.dataset.initialTopic?.trim();
+    if (form.dataset.kind === 'contact' && requestedTopic) {
+      const topic = form.elements.namedItem('topic');
+      if (topic instanceof HTMLSelectElement) {
+        const option = Array.from(topic.options).find((option) => option.value === requestedTopic)
+          ?? new Option(requestedTopic, requestedTopic, true, true);
+        if (!option.parentElement) topic.prepend(option);
+        topic.value = option.value;
+      }
+    }
+
     const getEmail = () => {
       const data = new FormData(form);
       return buildEnquiry(Object.fromEntries(data.entries()), {

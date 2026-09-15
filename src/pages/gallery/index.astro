@@ -15,7 +15,7 @@ if (!page || page.data.title !== 'Gallery') throw new Error('Gallery page conten
   </section>
   <section class="gallery-grid listing-section">
     {galleries.map((gallery, index) => (
-      <article class:list={['gallery-card', index % 3 === 1 && 'gallery-card--raised', 'reveal']}>
+      <article class="gallery-card reveal">
         <a href={withBase(`/gallery/${gallery.id}/`)}>
           <ImageFrame {...gallery.data.cover} />
           <span class="index">{String(index + 1).padStart(2, '0')}</span>

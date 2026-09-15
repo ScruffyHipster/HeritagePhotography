@@ -19,6 +19,7 @@ const site = defineCollection({
   loader: glob({ pattern: 'site.json', base: './src/content' }),
   schema: z.object({
     name: z.string(),
+    logo: z.string(),
     monogram: z.string(),
     strapline: z.string(),
     email: z.email(),
@@ -113,7 +114,6 @@ const pages = defineCollection({
       secondaryCta: cta,
       featuredProjects: z.array(z.string()).default([]),
       featuredGallery: z.string(),
-      featuredEvent: z.string(),
       hero: imageSlot.optional(),
       scrollCue: z.string(),
       introductionLabel: z.string(),
@@ -177,13 +177,11 @@ const pages = defineCollection({
     z.object({
       title: z.literal('Events'),
       ...pageHero,
-      upcomingEyebrow: z.string(),
       upcomingHeading: z.string(),
       venueLabel: z.string(),
       bookingLabel: z.string(),
       interestLabel: z.string(),
       emptyMessage: z.string(),
-      archiveEyebrow: z.string(),
       archiveHeading: z.string(),
     }),
     z.object({

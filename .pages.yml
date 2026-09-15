@@ -57,6 +57,7 @@ content:
         operations: { delete: false, rename: false }
         fields:
           - { name: name, label: Site name, type: string, required: true }
+          - { name: logo, label: Logo, type: image, required: true, description: "Choose the HBP logo used in the site header." }
           - { name: monogram, type: string, required: true }
           - { name: strapline, type: text, required: true }
           - { name: email, type: string, required: true }

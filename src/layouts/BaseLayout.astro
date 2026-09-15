@@ -52,7 +52,7 @@ const imageUrl = socialImage ? new URL(withBase(socialImage), deploymentSite) : 
   </head>
   <body>
     <a class="skip-link" href="#main">{shared.skipLink}</a>
-    <Header monogram={site.monogram} navigation={site.navigation} copy={shared.header} />
+    <Header logo={site.logo} navigation={site.navigation} copy={shared.header} />
     <main id="main">
       <slot />
     </main>

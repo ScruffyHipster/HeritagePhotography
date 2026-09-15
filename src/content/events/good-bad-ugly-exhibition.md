@@ -1,10 +1,13 @@
 ---
 title: The Good, the Bad and the Ugly Exhibition
-description: A touring exhibition highlighting the quality of Doncaster’s architecture, historic buildings in need of help, and buildings that contribute little to the city’s heritage through poor design.
+description: A touring exhibition highlighting the quality of Doncaster's architecture, historic buildings in need of help, and buildings that contribute little to the city's heritage through poor design.
 venue: Doncaster Brewery and Tap
 startDate: 2026-05-17
 endDate: 2026-05-31
-image: { alt: Photograph from The Good, the Bad and the Ugly Exhibition, shape: landscape }
+image:
+  image: /media/images/georgian-house.jpg
+  alt: A well-preserved Georgian house — from The Good, the Bad and the Ugly Exhibition
+  shape: landscape
 published: true
 seo:
   title: The Good, the Bad and the Ugly Exhibition
