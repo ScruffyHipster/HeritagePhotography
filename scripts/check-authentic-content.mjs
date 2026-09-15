@@ -46,7 +46,7 @@ assert.match(shop, />Black</);
 assert.match(shop, />White</);
 assert.doesNotMatch(shop, /Natural oak|museum-grade|archival|limited-edition/i);
 
-assert.match(home, /Historic buildings through a different lens/);
+assert.match(home, /Architecture, memory and place/);
 assert.match(contact, /specific historic building in Doncaster/);
 assert.match(site, /facebook\.com\/profile\.php\?id=61586411768719/);
 

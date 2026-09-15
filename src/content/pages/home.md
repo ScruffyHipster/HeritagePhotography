@@ -1,8 +1,8 @@
 ---
 title: Home
 eyebrow: Historic buildings, at home and abroad
-heroTitle: Historic buildings through a different lens.
-introduction: I have worked on many types of projects, but historic building photography is my favourite subject.
+heroTitle: Architecture, memory and place.
+introduction: I photograph the character, craft and changing story of historic buildings in Doncaster and beyond.
 primaryCta:
   label: Explore the work
   href: /projects/
@@ -14,30 +14,32 @@ featuredProjects:
   - doncaster-details-quiz
   - historic-churches-of-doncaster
 featuredGallery: doncaster-detail-quizzes-1-25
-featuredEvent: heritage-open-days
 hero:
-  alt: Photograph from the Heritage Building Photographer collection
-  caption: Historic buildings, at home and abroad.
+  image: /media/images/christ-church.jpg
+  alt: Christ Church, Doncaster — a landmark heritage building
+  caption: Christ Church, Doncaster.
   shape: panorama
 scrollCue: Scroll to explore
-introductionLabel: 01 — Introduction
-introductionHeading: Photographer and heritage enthusiast, always looking for a new perspective.
-introductionText: Following retirement, I was able to combine my passion for photography and heritage. I photograph buildings across many towns and cities, as well as abroad.
+introductionLabel: Introduction
+introductionHeading: A photographer and heritage enthusiast, always searching for the detail that tells the story.
+introductionText: After retiring, I brought my interests in photography and heritage together. My work celebrates fine architecture, records vulnerable buildings and invites people to look again at the places around them.
 introductionLink:
   label: Meet the photographer
   href: /about/
 introductionImage:
-  alt: Photograph from the Heritage Building Photographer collection
+  image: /media/images/walking-from-cp.jpg
+  alt: A heritage streetscape in Doncaster
   caption: Highlighting quality architecture and buildings in need of restoration.
   shape: circle
 lensImage:
-  alt: A sequence of stone arches dissolving into shadow
+  image: /media/images/memorial-in-light.jpg
+  alt: A heritage memorial caught in dramatic natural light
   shape: arch
-lensKicker: Through a
-lensHeading: different lens
-lensNote: Historic buildings, at home and abroad.
+lensKicker: Looking closer
+lensHeading: at the details
+lensNote: Stonework, craftsmanship and traces of the people who shaped each place.
 projectsEyebrow: Selected work
-projectsHeading: Historic buildings through a different lens.
+projectsHeading: Stories from Doncaster’s built heritage.
 projectsLink:
   label: All projects
   href: /projects/
@@ -49,7 +51,7 @@ eventLink:
   label: Event details
   href: /events/
 galleryEyebrow: The archive
-galleryHeading: Please see the gallery for other photographs.
+galleryHeading: See the gallery for more of my work
 galleryLink:
   label: Enter the gallery
   href: /gallery/
