@@ -20,6 +20,7 @@
     "@fontsource/cormorant-garamond": "latest",
     "@fontsource/manrope": "latest",
     "astro": "latest",
+    "photoswipe": "5.4.4",
     "sharp": "latest"
   },
   "devDependencies": {

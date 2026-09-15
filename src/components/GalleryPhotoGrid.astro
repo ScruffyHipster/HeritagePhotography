@@ -1,0 +1,81 @@
+---
+import 'photoswipe/style.css';
+import { withBase } from '../lib/paths';
+
+interface GalleryPhoto {
+  image?: string;
+  alt: string;
+  caption?: string;
+  width?: number;
+  height?: number;
+}
+
+interface Props {
+  id: string;
+  label: string;
+  photos: GalleryPhoto[];
+  emptyLabel: string;
+}
+
+const { id, label, photos, emptyLabel } = Astro.props;
+---
+<section id={id} class="photo-grid pswp-gallery" data-photoswipe-gallery aria-label={label}>
+  {photos.map((photo) => photo.image && photo.width && photo.height ? (
+    <a
+      class="photo-grid__item"
+      href={withBase(photo.image)}
+      aria-label={`Open ${photo.alt}`}
+      data-pswp-width={photo.width}
+      data-pswp-height={photo.height}
+      data-pswp-caption={photo.caption ?? ''}
+      data-cropped="true"
+    >
+      <img src={withBase(photo.image)} alt={photo.alt} loading="lazy" decoding="async" />
+    </a>
+  ) : (
+    <div class="photo-grid__placeholder" role="img" aria-label={photo.alt}>
+      <span>{emptyLabel}</span>
+    </div>
+  ))}
+</section>
+
+<script>
+  import PhotoSwipeLightbox from 'photoswipe/lightbox';
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLElement>('[data-photoswipe-gallery]').forEach((gallery) => {
+    const lightbox = new PhotoSwipeLightbox({
+      gallery,
+      children: '.photo-grid__item',
+      loop: true,
+      bgOpacity: 0.94,
+      showHideAnimationType: reduceMotion ? 'none' : 'zoom',
+      pswpModule: () => import('photoswipe'),
+    });
+
+    lightbox.on('uiRegister', () => {
+      const pswp = lightbox.pswp;
+      if (!pswp?.ui) return;
+
+      pswp.ui.registerElement({
+        name: 'gallery-caption',
+        order: 9,
+        isButton: false,
+        appendTo: 'root',
+        onInit: (element, pswp) => {
+          const updateCaption = () => {
+            const caption = pswp.currSlide?.data.element?.getAttribute('data-pswp-caption') ?? '';
+            element.textContent = caption;
+            element.hidden = !caption;
+          };
+
+          pswp.on('change', updateCaption);
+          updateCaption();
+        },
+      });
+    });
+
+    lightbox.init();
+  });
+</script>
