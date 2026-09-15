@@ -4,7 +4,8 @@ eyebrow: Behind the camera
 heroTitle: Photographer and heritage enthusiast, always looking for a new perspective.
 introduction: Following retirement, I was able to combine my passion for photography and heritage.
 hero:
-  alt: Photograph from the Heritage Building Photographer collection
+  image: /media/images/walking-from-cp.jpg
+  alt: A heritage streetscape in Doncaster
   caption: Historic buildings through a different lens.
   shape: portrait
 bodyLabel: My work
