@@ -1,7 +1,7 @@
 import { access, readFile } from 'node:fs/promises';
 
 const root = new URL('../dist/', import.meta.url);
-const basePrefix = process.env.GITHUB_ACTIONS === 'true' ? '/HeritagePhotography' : '';
+const basePrefix = (process.env.GITHUB_PAGES_BASE_PATH || '').replace(/\/$/, '');
 const requiredRoutes = [
   'index.html', 'about/index.html', 'projects/index.html', 'gallery/index.html',
   'events/index.html', 'shop/index.html', 'contact/index.html', '404.html',

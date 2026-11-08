@@ -21,8 +21,15 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v7
 
+      - name: Read GitHub Pages settings
+        id: pages
+        uses: actions/configure-pages@v6
+
       - name: Build and upload Astro site
         uses: withastro/action@v6
+        env:
+          GITHUB_PAGES_ORIGIN: ${{ steps.pages.outputs.origin }}
+          GITHUB_PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
 
   deploy:
     needs: build
