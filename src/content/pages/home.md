@@ -2,7 +2,9 @@
 title: Home
 eyebrow: Historic buildings, at home and abroad
 heroTitle: Architecture, memory and place.
-introduction: I photograph the character, craft and changing story of historic buildings in Doncaster and beyond.
+introduction: I photograph the character, qualities and changing story of
+  historic buildings in Doncaster and beyond, highlighting the need for their
+  retention.
 primaryCta:
   label: Explore the work
   href: /projects/
@@ -21,8 +23,11 @@ hero:
   shape: panorama
 scrollCue: Scroll to explore
 introductionLabel: Introduction
-introductionHeading: A photographer and heritage enthusiast, always searching for the detail that tells the story.
-introductionText: After retiring, I brought my interests in photography and heritage together. My work celebrates fine architecture, records vulnerable buildings and invites people to look again at the places around them.
+introductionHeading: A photographer and heritage enthusiast, always searching
+  for the detail that tells the story.
+introductionText: After retiring, I brought my interests in photography and
+  heritage together. My work celebrates fine architecture, records vulnerable
+  buildings and invites people to look again at the places around them.
 introductionLink:
   label: Meet the photographer
   href: /about/
@@ -57,5 +62,7 @@ galleryLink:
   href: /gallery/
 seo:
   title: Heritage Building Photographer
-  description: Historic building photography in Doncaster, across towns and cities, and abroad.
+  description: Historic building photography in Doncaster, across towns and
+    cities, and abroad.
+featuredEvent: good-bad-ugly-exhibition.md
 ---
