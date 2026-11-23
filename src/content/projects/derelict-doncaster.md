@@ -5,7 +5,7 @@ featured: true
 order: 1
 hero:
   image: /media/images/st-james-must-keep-swimming.jpeg
-  alt: A derelict historic building in Doncaster
+  alt: The derelict St James’s Baths in Doncaster
   caption: Doncaster's historic buildings in need of repair.
   shape: landscape
 gallery:
