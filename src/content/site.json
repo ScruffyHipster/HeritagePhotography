@@ -2,18 +2,36 @@
   "name": "Heritage Building Photographer",
   "logo": "/media/images/hbp-logo.png",
   "monogram": "HBP",
-  "strapline": "Historic buildings, at home and abroad.",
+  "strapline": "Photographing historic buildings, at home and abroad.",
   "email": "heritagephotographer@icloud.com",
   "canonicalUrl": "https://heritagebuildingphotographer.co.uk",
   "instagram": "https://www.instagram.com/old_buildings_photographer/",
   "facebook": "https://www.facebook.com/profile.php?id=61586411768719",
   "navigation": [
-    { "label": "Projects", "href": "/projects/" },
-    { "label": "Gallery", "href": "/gallery/" },
-    { "label": "Events", "href": "/events/" },
-    { "label": "Shop", "href": "/shop/" },
-    { "label": "About", "href": "/about/" },
-    { "label": "Contact", "href": "/contact/" }
+    {
+      "label": "Projects",
+      "href": "/projects/"
+    },
+    {
+      "label": "Gallery",
+      "href": "/gallery/"
+    },
+    {
+      "label": "Events",
+      "href": "/events/"
+    },
+    {
+      "label": "Shop",
+      "href": "/shop/"
+    },
+    {
+      "label": "About",
+      "href": "/about/"
+    },
+    {
+      "label": "Contact",
+      "href": "/contact/"
+    }
   ],
   "footer": "Historic buildings, at home and abroad.",
   "seo": {
