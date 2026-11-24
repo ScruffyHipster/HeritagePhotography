@@ -1,6 +1,6 @@
 ---
 title: Home
-eyebrow: Historic buildings, at home and abroad
+eyebrow: Photographing historic buildings, at home and abroad
 heroTitle: Architecture, memory and place.
 introduction: I photograph the character, qualities and changing story of
   historic buildings in Doncaster and beyond, highlighting the need for their
@@ -24,7 +24,7 @@ hero:
 scrollCue: Scroll to explore
 introductionLabel: Introduction
 introductionHeading: A photographer and heritage enthusiast, always searching
-  for the detail that tells the story.
+  for the architectural history that tells the story.
 introductionText: After retiring, I brought my interests in photography and
   heritage together. My work celebrates fine architecture, records vulnerable
   buildings and invites people to look again at the places around them.
@@ -33,13 +33,14 @@ introductionLink:
   href: /about/
 introductionImage:
   image: /media/images/walking-from-cp.jpg
-  alt: A heritage streetscape in Doncaster
+  alt: One of many historic churches in Doncaster
   caption: Highlighting quality architecture and buildings in need of restoration.
   shape: circle
 lensImage:
   image: /media/images/memorial-in-light.jpg
   alt: A heritage memorial caught in dramatic natural light
   shape: arch
+  caption: St Oswalds Church, Kirk Sandall
 lensKicker: Looking closer
 lensHeading: at the details
 lensNote: Stonework, craftsmanship and traces of the people who shaped each place.
